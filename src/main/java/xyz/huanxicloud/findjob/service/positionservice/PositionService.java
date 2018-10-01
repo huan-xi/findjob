@@ -6,4 +6,6 @@ import xyz.huanxicloud.findjob.pojo.Position;
 public interface PositionService {
     public ReturnMessage publicPosition(Position position);
     public ReturnMessage getPositions(int page, int size);
+
+    public ReturnMessage getPosition(int id);
 }

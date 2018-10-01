@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@WebFilter(urlPatterns = "/user/*",filterName = "userFilter")
+@WebFilter(urlPatterns = "/usertest/*",filterName = "userFilter")
 public class UserFilter implements Filter {
 
     @Override

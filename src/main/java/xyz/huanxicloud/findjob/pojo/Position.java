@@ -15,6 +15,10 @@ public class Position {
 
     private String videoSrc;
 
+    private Integer count;
+
+    private Integer hCount;
+
     public Integer getPositionId() {
         return positionId;
     }
@@ -69,5 +73,21 @@ public class Position {
 
     public void setVideoSrc(String videoSrc) {
         this.videoSrc = videoSrc == null ? null : videoSrc.trim();
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public Integer gethCount() {
+        return hCount;
+    }
+
+    public void sethCount(Integer hCount) {
+        this.hCount = hCount;
     }
 }
