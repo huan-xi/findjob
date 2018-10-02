@@ -61,7 +61,6 @@ public class JwtTokenUtil implements Serializable {
         Map<String, Object> claims = new HashMap<>(2);
         claims.put("sub", user.getUserId());
         claims.put("created", new Date());
-        claims.put("type",user.getType());
         claims.put("status",user.getStatus());
         return generateToken(claims);
     }
@@ -87,7 +86,6 @@ public class JwtTokenUtil implements Serializable {
         Claims claims = getClaimsFromToken(token);
         User user = new User();
         try {
-            user.setType(claims.get("type").toString());
             user.setStatus(claims.get("status").toString());
         }catch (NullPointerException e){
             //抓到空指针异常,解析失败

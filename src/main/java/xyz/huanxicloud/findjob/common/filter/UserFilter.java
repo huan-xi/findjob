@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@WebFilter(urlPatterns = "/usertest/*",filterName = "userFilter")
+@WebFilter(urlPatterns = "/user/*",filterName = "userFilter")
 public class UserFilter implements Filter {
 
     @Override
@@ -29,7 +29,7 @@ public class UserFilter implements Filter {
             //Token是否过期验证
             if (!JwtTokenUtil.isTokenExpired(token)){
                 User user= JwtTokenUtil.getUserFormToken(token);
-                if (user!=null&&StringUtils.isEmpty(user.getOpenId())){
+                if (user!=null&&StringUtils.isEmpty(user.getUserId())){
                     filterChain.doFilter(httpRequest, servletResponse);
                 }else {
                     httpResponse.getWriter().write("{\"status\":4003,\"msg\":\"please login is user error \"}");

@@ -3,32 +3,46 @@ package xyz.huanxicloud.findjob.service.userservice.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.huanxicloud.findjob.common.ReturnMessage;
-import xyz.huanxicloud.findjob.mapper.ResumeMapper;
 import xyz.huanxicloud.findjob.mapper.UserMapper;
-import xyz.huanxicloud.findjob.pojo.Resume;
+import xyz.huanxicloud.findjob.pojo.User;
+import xyz.huanxicloud.findjob.service.positionservice.PositionService;
 import xyz.huanxicloud.findjob.service.userservice.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserMapper userMapper;
+    PositionService positionService;
     @Autowired
-    ResumeMapper resumeMapper;
+    UserMapper userMapper;
+
     @Override
-    public ReturnMessage findUserById(int id) {
-        return null;
+    public User findUserById(String id) {
+        return userMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public ReturnMessage getUserResume(int id) {
-        return null;
+    public int updateByPrimaryKey(User user) {
+        return userMapper.updateByPrimaryKey(user);
     }
 
     @Override
-    public ReturnMessage saveUserResume(int id, Resume resume) {
-        resume.setUserId(id);
-        if (resumeMapper.insert(resume)>0)
-            return new ReturnMessage(1,"保存成功！");
-        return new ReturnMessage(0,"保存失败！");
+    public ReturnMessage getUserInfo(String id) {
+        User user = this.findUserById(id);
+        if (user != null) {
+            return new ReturnMessage(1, user);
+        }
+        return new ReturnMessage(0, "获取数据失败");
+    }
+
+    @Override
+    public ReturnMessage editInfo(String id,String phone,String name,String types) {
+        User user=userMapper.selectByPrimaryKey(id);
+        //工种处理
+        user.setType(types);
+        user.setPhone(phone);
+        user.setName(name);
+        if (userMapper.updateByPrimaryKey(user) > 0)
+            return new ReturnMessage(1, "修改信息成功");
+        return new ReturnMessage(0, "修改信息失败！");
     }
 }

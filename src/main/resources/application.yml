@@ -10,7 +10,7 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 20Mb
+      max-file-size: 10Mb
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: xyz.huanxicloud.findjob.pojo
