@@ -4,7 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
-import xyz.huanxicloud.findjob.pojo.User;
+import xyz.huanxicloud.findjob.common.Constant;
+import xyz.huanxicloud.findjob.pojo.Vender;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,12 +19,9 @@ import java.util.Map;
  * Created on 2017/12/8 9:20.
  */
 @Component
-public class JwtTokenUtil implements Serializable {
+public class JwtVenderUtil implements Serializable {
 
-    /**
-     * 密钥
-     */
-    private static final String secret = "micherhimmeCteqdi0";
+
 
     /**
      * 从数据声明生成令牌
@@ -33,7 +31,7 @@ public class JwtTokenUtil implements Serializable {
      */
     private static String generateToken(Map<String, Object> claims) {
         Date expirationDate = new Date(System.currentTimeMillis() + 2592000L * 1000);
-        return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, secret).compact();
+        return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, Constant.getVenderJwtSercret()).compact();
     }
 
     /**
@@ -45,7 +43,7 @@ public class JwtTokenUtil implements Serializable {
     public static Claims getClaimsFromToken(String token) {
         Claims claims;
         try {
-            claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+            claims = Jwts.parser().setSigningKey(Constant.getVenderJwtSercret()).parseClaimsJws(token).getBody();
         } catch (Exception e) {
             claims = null;
         }
@@ -57,11 +55,12 @@ public class JwtTokenUtil implements Serializable {
      *
      * @return 令牌
      */
-    public static String generateToken(User user) {
+    public static String generateToken(Vender vender) {
         Map<String, Object> claims = new HashMap<>(2);
-        claims.put("sub", user.getUserId());
+        claims.put("sub", vender.getVenderId());
         claims.put("created", new Date());
-        claims.put("status",user.getStatus());
+        claims.put("status",vender.getStatus());
+        claims.put("name",vender.getName());
         return generateToken(claims);
     }
 
@@ -71,28 +70,30 @@ public class JwtTokenUtil implements Serializable {
      * @param token 令牌
      * @return 用户名
      */
-    public static String getUserIdFromToken(String token) {
-        String username;
+    public static String getVenderIdFromToken(String token) {
+        String Vendername;
         try {
             Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
+            Vendername = claims.getSubject();
         } catch (Exception e) {
-            username = null;
+            Vendername = null;
         }
-        return username;
+        return Vendername;
     }
 
-    public static User getUserFormToken(String token) {
+    public static Vender getVenderFormToken(String token) {
         Claims claims = getClaimsFromToken(token);
-        User user = new User();
+        Vender vender = new Vender();
+        if(claims.get("name")!=null)
+        vender.setName(claims.get("name").toString());
         try {
-            user.setStatus(claims.get("status").toString());
+            vender.setStatus(claims.get("status").toString());
+            vender.setVenderId(claims.getSubject());
         }catch (NullPointerException e){
-            //抓到空指针异常,解析失败
+            //抓到空指针异常,解析失败(Token不合法)
             return null;
         }
-
-        return user;
+        return vender;
     }
 
     /**
@@ -135,9 +136,9 @@ public class JwtTokenUtil implements Serializable {
      * @param token 令牌
      * @return 是否有效
      */
-    public static Boolean validateToken(String token, User user) {
-        String username = getUserIdFromToken(token);
-        return (username.equals(user.getUserId()) && !isTokenExpired(token));
+    public static Boolean validateToken(String token, Vender Vender) {
+        String Vendername = getVenderIdFromToken(token);
+        return (Vendername.equals(Vender.getVenderId()) && !isTokenExpired(token));
     }
 
 }

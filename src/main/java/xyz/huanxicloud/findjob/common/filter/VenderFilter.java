@@ -2,9 +2,9 @@ package xyz.huanxicloud.findjob.common.filter;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import xyz.huanxicloud.findjob.common.jwt.JwtUserTokenUtil;
+import xyz.huanxicloud.findjob.common.jwt.JwtVenderUtil;
 import xyz.huanxicloud.findjob.controller.LoginContrller;
-import xyz.huanxicloud.findjob.pojo.User;
+import xyz.huanxicloud.findjob.pojo.Vender;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@WebFilter(urlPatterns = "/user/*",filterName = "userFilter")
-public class UserFilter implements Filter {
+@WebFilter(urlPatterns = "/vender/*",filterName = "venderFilter")
+public class VenderFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -28,16 +28,16 @@ public class UserFilter implements Filter {
         String token=((HttpServletRequest) servletRequest).getHeader("Token");
         if (!StringUtils.isEmpty(token)){
             //Token是否过期验证
-            if (!JwtUserTokenUtil.isTokenExpired(token)){
+            if (!JwtVenderUtil.isTokenExpired(token)){
                 //验证用户值是否合法
-                User user= JwtUserTokenUtil.getUserFormToken(token);
-                if (user!=null&&!StringUtils.isEmpty(user.getUserId())){
+                Vender vender= JwtVenderUtil.getVenderFormToken(token);
+                if (vender!=null&&!StringUtils.isEmpty(vender.getVenderId())){
                     //验证用户是否被禁用
-                    if (!user.getStatus().equals(LoginContrller.STATUS_FORBID))
+                    if (!vender.getStatus().equals(LoginContrller.STATUS_FORBID))
                     filterChain.doFilter(httpRequest, servletResponse);
-                    else httpResponse.getWriter().write("{\"status\":4005,\"msg\":\"user forbid\"}");
+                    else httpResponse.getWriter().write("{\"status\":4005,\"msg\":\"vender forbid\"}");
                 }else {
-                    httpResponse.getWriter().write("{\"status\":4003,\"msg\":\"please login is user error \"}");
+                    httpResponse.getWriter().write("{\"status\":4003,\"msg\":\"please login is vender error \"}");
                 }
             }else {
                 httpResponse.getWriter().write("{\"status\":4003,\"msg\":\"please login is timeout\"}");

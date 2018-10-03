@@ -3,6 +3,8 @@ package xyz.huanxicloud.findjob.pojo;
 public class Position {
     private Integer positionId;
 
+    private String venderId;
+
     private String type;
 
     private Long time;
@@ -11,13 +13,17 @@ public class Position {
 
     private String salary;
 
-    private String positionDesc;
-
     private String videoSrc;
 
     private Integer count;
 
     private Integer hCount;
+
+    private Long createTime;
+
+    private String company;
+
+    private String positionDesc;
 
     public Integer getPositionId() {
         return positionId;
@@ -25,6 +31,14 @@ public class Position {
 
     public void setPositionId(Integer positionId) {
         this.positionId = positionId;
+    }
+
+    public String getVenderId() {
+        return venderId;
+    }
+
+    public void setVenderId(String venderId) {
+        this.venderId = venderId == null ? null : venderId.trim();
     }
 
     public String getType() {
@@ -59,14 +73,6 @@ public class Position {
         this.salary = salary == null ? null : salary.trim();
     }
 
-    public String getPositionDesc() {
-        return positionDesc;
-    }
-
-    public void setPositionDesc(String positionDesc) {
-        this.positionDesc = positionDesc == null ? null : positionDesc.trim();
-    }
-
     public String getVideoSrc() {
         return videoSrc;
     }
@@ -89,5 +95,29 @@ public class Position {
 
     public void sethCount(Integer hCount) {
         this.hCount = hCount;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company == null ? null : company.trim();
+    }
+
+    public String getPositionDesc() {
+        return positionDesc;
+    }
+
+    public void setPositionDesc(String positionDesc) {
+        this.positionDesc = positionDesc == null ? null : positionDesc.trim();
     }
 }

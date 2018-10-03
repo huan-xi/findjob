@@ -3,14 +3,19 @@
 <mapper namespace="xyz.huanxicloud.findjob.mapper.PositionMapper">
   <resultMap id="BaseResultMap" type="xyz.huanxicloud.findjob.pojo.Position">
     <id column="position_id" jdbcType="INTEGER" property="positionId" />
+    <result column="vender_id" jdbcType="VARCHAR" property="venderId" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="time" jdbcType="BIGINT" property="time" />
     <result column="salary_type" jdbcType="VARCHAR" property="salaryType" />
     <result column="salary" jdbcType="CHAR" property="salary" />
-    <result column="position_desc" jdbcType="VARCHAR" property="positionDesc" />
     <result column="video_src" jdbcType="VARCHAR" property="videoSrc" />
     <result column="count" jdbcType="INTEGER" property="count" />
     <result column="h_count" jdbcType="INTEGER" property="hCount" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="xyz.huanxicloud.findjob.pojo.Position">
+    <result column="position_desc" jdbcType="LONGVARCHAR" property="positionDesc" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,8 +76,28 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    position_id, type, time, salary_type, salary, position_desc, video_src, count, h_count
+    position_id, vender_id, type, time, salary_type, salary, video_src, count, h_count, 
+    create_time, company
   </sql>
+  <sql id="Blob_Column_List">
+    position_desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="xyz.huanxicloud.findjob.pojo.PositionExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from position
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="xyz.huanxicloud.findjob.pojo.PositionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -87,9 +112,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from position
     where position_id = #{positionId,jdbcType=INTEGER}
   </select>
@@ -104,13 +131,15 @@
     </if>
   </delete>
   <insert id="insert" parameterType="xyz.huanxicloud.findjob.pojo.Position">
-    insert into position (position_id, type, time, 
-      salary_type, salary, position_desc, 
-      video_src, count, h_count
+    insert into position (position_id, vender_id, type, 
+      time, salary_type, salary, 
+      video_src, count, h_count, 
+      create_time, company, position_desc
       )
-    values (#{positionId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{time,jdbcType=BIGINT}, 
-      #{salaryType,jdbcType=VARCHAR}, #{salary,jdbcType=CHAR}, #{positionDesc,jdbcType=VARCHAR}, 
-      #{videoSrc,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{hCount,jdbcType=INTEGER}
+    values (#{positionId,jdbcType=INTEGER}, #{venderId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{time,jdbcType=BIGINT}, #{salaryType,jdbcType=VARCHAR}, #{salary,jdbcType=CHAR}, 
+      #{videoSrc,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{hCount,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=BIGINT}, #{company,jdbcType=VARCHAR}, #{positionDesc,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="xyz.huanxicloud.findjob.pojo.Position">
@@ -118,6 +147,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="positionId != null">
         position_id,
+      </if>
+      <if test="venderId != null">
+        vender_id,
       </if>
       <if test="type != null">
         type,
@@ -131,9 +163,6 @@
       <if test="salary != null">
         salary,
       </if>
-      <if test="positionDesc != null">
-        position_desc,
-      </if>
       <if test="videoSrc != null">
         video_src,
       </if>
@@ -143,10 +172,22 @@
       <if test="hCount != null">
         h_count,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="positionDesc != null">
+        position_desc,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="positionId != null">
         #{positionId,jdbcType=INTEGER},
+      </if>
+      <if test="venderId != null">
+        #{venderId,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
@@ -160,9 +201,6 @@
       <if test="salary != null">
         #{salary,jdbcType=CHAR},
       </if>
-      <if test="positionDesc != null">
-        #{positionDesc,jdbcType=VARCHAR},
-      </if>
       <if test="videoSrc != null">
         #{videoSrc,jdbcType=VARCHAR},
       </if>
@@ -171,6 +209,15 @@
       </if>
       <if test="hCount != null">
         #{hCount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="positionDesc != null">
+        #{positionDesc,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -186,6 +233,9 @@
       <if test="record.positionId != null">
         position_id = #{record.positionId,jdbcType=INTEGER},
       </if>
+      <if test="record.venderId != null">
+        vender_id = #{record.venderId,jdbcType=VARCHAR},
+      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=VARCHAR},
       </if>
@@ -198,9 +248,6 @@
       <if test="record.salary != null">
         salary = #{record.salary,jdbcType=CHAR},
       </if>
-      <if test="record.positionDesc != null">
-        position_desc = #{record.positionDesc,jdbcType=VARCHAR},
-      </if>
       <if test="record.videoSrc != null">
         video_src = #{record.videoSrc,jdbcType=VARCHAR},
       </if>
@@ -210,7 +257,34 @@
       <if test="record.hCount != null">
         h_count = #{record.hCount,jdbcType=INTEGER},
       </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.company != null">
+        company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionDesc != null">
+        position_desc = #{record.positionDesc,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update position
+    set position_id = #{record.positionId,jdbcType=INTEGER},
+      vender_id = #{record.venderId,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      time = #{record.time,jdbcType=BIGINT},
+      salary_type = #{record.salaryType,jdbcType=VARCHAR},
+      salary = #{record.salary,jdbcType=CHAR},
+      video_src = #{record.videoSrc,jdbcType=VARCHAR},
+      count = #{record.count,jdbcType=INTEGER},
+      h_count = #{record.hCount,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      company = #{record.company,jdbcType=VARCHAR},
+      position_desc = #{record.positionDesc,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -218,14 +292,16 @@
   <update id="updateByExample" parameterType="map">
     update position
     set position_id = #{record.positionId,jdbcType=INTEGER},
+      vender_id = #{record.venderId,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
       time = #{record.time,jdbcType=BIGINT},
       salary_type = #{record.salaryType,jdbcType=VARCHAR},
       salary = #{record.salary,jdbcType=CHAR},
-      position_desc = #{record.positionDesc,jdbcType=VARCHAR},
       video_src = #{record.videoSrc,jdbcType=VARCHAR},
       count = #{record.count,jdbcType=INTEGER},
-      h_count = #{record.hCount,jdbcType=INTEGER}
+      h_count = #{record.hCount,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      company = #{record.company,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -233,6 +309,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="xyz.huanxicloud.findjob.pojo.Position">
     update position
     <set>
+      <if test="venderId != null">
+        vender_id = #{venderId,jdbcType=VARCHAR},
+      </if>
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
@@ -245,9 +324,6 @@
       <if test="salary != null">
         salary = #{salary,jdbcType=CHAR},
       </if>
-      <if test="positionDesc != null">
-        position_desc = #{positionDesc,jdbcType=VARCHAR},
-      </if>
       <if test="videoSrc != null">
         video_src = #{videoSrc,jdbcType=VARCHAR},
       </if>
@@ -257,19 +333,45 @@
       <if test="hCount != null">
         h_count = #{hCount,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="positionDesc != null">
+        position_desc = #{positionDesc,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where position_id = #{positionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="xyz.huanxicloud.findjob.pojo.Position">
+    update position
+    set vender_id = #{venderId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      time = #{time,jdbcType=BIGINT},
+      salary_type = #{salaryType,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=CHAR},
+      video_src = #{videoSrc,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      h_count = #{hCount,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      company = #{company,jdbcType=VARCHAR},
+      position_desc = #{positionDesc,jdbcType=LONGVARCHAR}
     where position_id = #{positionId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="xyz.huanxicloud.findjob.pojo.Position">
     update position
-    set type = #{type,jdbcType=VARCHAR},
+    set vender_id = #{venderId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
       time = #{time,jdbcType=BIGINT},
       salary_type = #{salaryType,jdbcType=VARCHAR},
       salary = #{salary,jdbcType=CHAR},
-      position_desc = #{positionDesc,jdbcType=VARCHAR},
       video_src = #{videoSrc,jdbcType=VARCHAR},
       count = #{count,jdbcType=INTEGER},
-      h_count = #{hCount,jdbcType=INTEGER}
+      h_count = #{hCount,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      company = #{company,jdbcType=VARCHAR}
     where position_id = #{positionId,jdbcType=INTEGER}
   </update>
 </mapper>

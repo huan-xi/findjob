@@ -11,6 +11,16 @@ import org.springframework.web.client.RestTemplate;
 public class WXUtils {
     private static final String USER_APPID = "wx7ae86a27959c0d1b";
     private static final String USER_SECRET = "d930da378c078da47bef57974650231c";
+    private static final String VENDER_APPID = "wx8b16666008036f38";
+    private static final String VENDER_SECRET = "8cfe06e74b6c67c3dea1c2e0a8b007b4";
+
+    public static String getVenderAppid() {
+        return VENDER_APPID;
+    }
+
+    public static String getVenderSecret() {
+        return VENDER_SECRET;
+    }
 
     public static String getUserAppid() {
         return USER_APPID;

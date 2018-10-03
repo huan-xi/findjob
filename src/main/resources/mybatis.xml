@@ -32,7 +32,8 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <table schema="" tableName="user"/>
+        <!--<table schema="" tableName="p_order"/>-->
+        <table schema="" tableName="operate_log"/>
    <!--     <table schema="" tableName="bill" ></table>
         <table schema="" tableName="bill_info" ></table>-->
        <!-- <table schema="" tableName="company">

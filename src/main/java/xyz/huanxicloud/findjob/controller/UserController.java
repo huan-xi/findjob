@@ -1,11 +1,12 @@
 package xyz.huanxicloud.findjob.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.huanxicloud.findjob.common.ReturnMessage;
-import xyz.huanxicloud.findjob.common.jwt.JwtTokenUtil;
+import xyz.huanxicloud.findjob.common.jwt.JwtUserTokenUtil;
 import xyz.huanxicloud.findjob.pojo.User;
 import xyz.huanxicloud.findjob.service.userservice.UserService;
 import xyz.huanxicloud.findjob.util.AliOSSUtil;
@@ -30,8 +31,19 @@ public String test(@RequestHeader("Token") String token){
      */
     @GetMapping("/getInfo")
     public ReturnMessage getInfo(@RequestHeader("Token") String token){
-        String id= JwtTokenUtil.getUserIdFromToken(token);
+        String id= JwtUserTokenUtil.getUserIdFromToken(token);
         return userService.getUserInfo(id);
+    }
+    @Transactional
+    @PostMapping("/orderPosition")
+    public ReturnMessage orderPosition(@RequestHeader("Token") String token,int id) throws Exception {
+        String userId= JwtUserTokenUtil.getUserIdFromToken(token);
+        return userService.orderPosition(userId,id);
+    }
+    @GetMapping("/cancelOrder")
+    public ReturnMessage cancelOrder(@RequestHeader("Token") String token,int orderId){
+        String userId= JwtUserTokenUtil.getUserIdFromToken(token);
+        return userService.cancelOrder(userId,orderId);
     }
     @PostMapping("/uploadIdCard")
     public ReturnMessage uploadIdCard(@RequestHeader("Token") String token,MultipartFile idCard){
@@ -65,12 +77,12 @@ public String test(@RequestHeader("Token") String token){
      */
     @PostMapping("/editInfo")
     public ReturnMessage editInfo(@RequestHeader("Token") String token, String phone,String name, String types){
-        String id= JwtTokenUtil.getUserIdFromToken(token);
+        String id= JwtUserTokenUtil.getUserIdFromToken(token);
         return userService.editInfo(id,  phone, name,  types);
     }
 
     private User getUser(String token){
-        String id= JwtTokenUtil.getUserIdFromToken(token);
+        String id= JwtUserTokenUtil.getUserIdFromToken(token);
         return userService.findUserById(id);
     }
 }
