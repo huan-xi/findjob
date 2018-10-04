@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import xyz.huanxicloud.findjob.mapper.POrderMapper;
 import xyz.huanxicloud.findjob.mapper.VenderMapper;
 import xyz.huanxicloud.findjob.pojo.Position;
 import xyz.huanxicloud.findjob.pojo.Vender;
@@ -22,6 +23,8 @@ public class FindjobApplicationTests {
     VenderService venderService;
     @Autowired
     VenderMapper venderMapper;
+    @Autowired
+    POrderMapper pOrderMapper;
     @Test
     public void edit(){
         Vender vender=new Vender() ;
@@ -43,5 +46,8 @@ public class FindjobApplicationTests {
         position.setType("fdsa"+i);
         position.setTime(new Date().getTime());
         positionService.publicPosition("gdfsdfg","fda",position);
+    }
+    @Test
+    public void  findorder(){
     }
 }

@@ -1,7 +1,6 @@
 package xyz.huanxicloud.findjob.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +33,11 @@ public String test(@RequestHeader("Token") String token){
         String id= JwtUserTokenUtil.getUserIdFromToken(token);
         return userService.getUserInfo(id);
     }
-    @Transactional
+    @GetMapping("/getOrders")
+    public ReturnMessage getOrders(@RequestHeader("Token") String token,int page,int size){
+        String id= JwtUserTokenUtil.getUserIdFromToken(token);
+        return userService.getOrders(id,page,size);
+    }
     @PostMapping("/orderPosition")
     public ReturnMessage orderPosition(@RequestHeader("Token") String token,int id) throws Exception {
         String userId= JwtUserTokenUtil.getUserIdFromToken(token);
@@ -42,6 +45,7 @@ public String test(@RequestHeader("Token") String token){
     }
     @GetMapping("/cancelOrder")
     public ReturnMessage cancelOrder(@RequestHeader("Token") String token,int orderId){
+        if (StringUtils.isEmpty(orderId)) return new ReturnMessage(100,"请求异常");
         String userId= JwtUserTokenUtil.getUserIdFromToken(token);
         return userService.cancelOrder(userId,orderId);
     }

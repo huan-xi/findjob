@@ -26,6 +26,7 @@ public class PublicController {
     public ReturnMessage getVenderInfo(String id){
         return venderService.getInfo(id);
     }
+    //浏览
     @GetMapping("/getPositions")
     public ReturnMessage getPositions(int page, int size){
         return positionService.getPositions(page,size);

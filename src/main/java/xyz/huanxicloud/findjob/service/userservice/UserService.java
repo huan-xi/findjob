@@ -12,4 +12,6 @@ public interface UserService {
     public ReturnMessage orderPosition(String userId,int positionId) throws Exception;
 
     public ReturnMessage cancelOrder(String userId, int orderId);
+
+    public ReturnMessage getOrders(String id,int page,int size);
 }
