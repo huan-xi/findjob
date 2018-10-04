@@ -2,8 +2,8 @@ package xyz.huanxicloud.findjob.common.filter;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import xyz.huanxicloud.findjob.common.Constant;
 import xyz.huanxicloud.findjob.common.jwt.JwtVenderUtil;
-import xyz.huanxicloud.findjob.controller.LoginContrller;
 import xyz.huanxicloud.findjob.pojo.Vender;
 
 import javax.servlet.*;
@@ -33,7 +33,7 @@ public class VenderFilter implements Filter {
                 Vender vender= JwtVenderUtil.getVenderFormToken(token);
                 if (vender!=null&&!StringUtils.isEmpty(vender.getVenderId())){
                     //验证用户是否被禁用
-                    if (!vender.getStatus().equals(LoginContrller.STATUS_FORBID))
+                    if (!vender.getStatus().equals(Constant.getRoueStatusForbid()))
                     filterChain.doFilter(httpRequest, servletResponse);
                     else httpResponse.getWriter().write("{\"status\":4005,\"msg\":\"vender forbid\"}");
                 }else {

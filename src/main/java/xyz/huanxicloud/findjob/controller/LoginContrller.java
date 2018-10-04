@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.huanxicloud.findjob.common.Constant;
 import xyz.huanxicloud.findjob.common.ReturnMessage;
 import xyz.huanxicloud.findjob.common.jwt.JwtUserTokenUtil;
 import xyz.huanxicloud.findjob.common.jwt.JwtVenderUtil;
@@ -18,12 +19,7 @@ import java.util.Date;
 
 @RestController
 public class LoginContrller {
-    public final static String TYPE_USER="1";
-    public final static String TYPE_FACTURER="2";
-    public final static String TYPE_ADMIN="3";
-    public final static String STATUS_NORMAL="1";
-    public final static String STATUS_FORBID="2";
-    public final static String STATUS_WAITER="3";
+
     @Autowired
     UserMapper userMapper;
     @Autowired
@@ -39,7 +35,7 @@ public class LoginContrller {
             if (user==null){
                 //未注册，自动注册
                 user=new User();
-                user.setStatus(STATUS_NORMAL);
+                user.setStatus(Constant.getRoueStatusNormal());
                 user.setCreateTime(new Date().getTime());
                 user.setUserId(wxInfo.getOpenid());
                 user.setValid("0");
@@ -51,7 +47,7 @@ public class LoginContrller {
                 }
             }else {
                 //已经注册
-                if (user.getStatus().equals(STATUS_FORBID))
+                if (user.getStatus().equals(Constant.getRoueStatusForbid()))
                     return new ReturnMessage(4004,"您的账号已被禁用");
                 token= JwtUserTokenUtil.generateToken(user);
             }
@@ -71,7 +67,7 @@ public class LoginContrller {
             if (vender==null){
                 //未注册，自动注册
                 vender=new Vender();
-                vender.setStatus(STATUS_NORMAL);
+                vender.setStatus(Constant.getRoueStatusNormal());
                 vender.setCreateTime(new Date().getTime());
                 vender.setVenderId(wxInfo.getOpenid());
                 if (venderMapper.insert(vender)>0){
@@ -82,7 +78,7 @@ public class LoginContrller {
                 }
             }else {
                 //已经注册
-                if (vender.getStatus().equals(STATUS_FORBID))
+                if (vender.getStatus().equals(Constant.getRoueStatusForbid()))
                     return new ReturnMessage(4005,"您的账号已被禁用");
                 token= JwtVenderUtil.generateToken(vender);
             }

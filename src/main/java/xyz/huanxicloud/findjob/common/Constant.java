@@ -3,6 +3,9 @@ package xyz.huanxicloud.findjob.common;
 public class Constant {
     private static final String USER_JET_SERCRET= "micherhimmeCteqdi0";
     private static final String VENDER_JWT_SERCRET= "micherhimVerderqdi0";
+    //角色状态
+    public final static String ROUE_STATUS_NORMAL="1";
+    public final static String ROUE_STATUS_FORBID="2";
     //订单常量
     private static final String ODER_STATUS_WAITE="1";
     private static final String ODER_STATUS_AGREE="2";
@@ -52,6 +55,14 @@ public class Constant {
 
     public static String getOderStatusDelete() {
         return ODER_STATUS_DELETE;
+    }
+
+    public static String getRoueStatusNormal() {
+        return ROUE_STATUS_NORMAL;
+    }
+
+    public static String getRoueStatusForbid() {
+        return ROUE_STATUS_FORBID;
     }
 
     public static String getLog_ORPRATE_CANCEL_ORDER() {
