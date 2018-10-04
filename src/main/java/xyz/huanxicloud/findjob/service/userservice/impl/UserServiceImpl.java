@@ -105,8 +105,11 @@ public class UserServiceImpl  implements UserService {
     public ReturnMessage cancelOrder(String userId, int orderId) {
         //查询用户今日取消操作日志
         OperateLogExample example=new OperateLogExample();
-        example.createCriteria().andCreateTimeGreaterThanOrEqualTo(new Date().getTime()).andTypeEqualTo(Constant.getLog_ORPRATE_CANCEL_ORDER())
-                .andOperatorEqualTo(Constant.getLog_USER_USER());
+        example.createCriteria()
+                .andCreateTimeGreaterThanOrEqualTo(Util.getTodayTime()) //今天的日志
+                .andTypeEqualTo(Constant.getLog_ORPRATE_CANCEL_ORDER()) //取消操作
+                .andOperatorTypeEqualTo(Constant.getLog_USER_USER())//用户
+                .andOperatorEqualTo(userId);//此用户
         List<OperateLog> logs=operateLogMapper.selectByExample(example);
         if (logs.size()>0)
             return new ReturnMessage(0,"一天只能取消一次订单哦！");
@@ -138,7 +141,9 @@ public class UserServiceImpl  implements UserService {
     @Override
     public ReturnMessage getOrders(String id,int page,int size) {
         PageHelper.startPage(page,size);
+        //获取没删除的订单
         POrderExample example=new POrderExample();
+        example.createCriteria().andStatusNotEqualTo(Constant.getOderStatusDelete());
         Page<POrder> pOrders= (Page<POrder>) pOrderMapper.selectByExample(example);
         List<Order> orders=new ArrayList<>();
         for(POrder p:pOrders){
@@ -146,5 +151,20 @@ public class UserServiceImpl  implements UserService {
             orders.add(pOrderMapper.selectOrderByPrimaryKey(p.getOrderId()));
         }
         return new ReturnMessage(1,new PageResult(pOrders.getTotal(),orders,pOrders.getPageNum()));
+    }
+
+    @Override
+    public ReturnMessage deleteOrders(String userId, int orderId) {
+        POrderExample example=new POrderExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andOrderIdEqualTo(orderId);
+        List<POrder> orders= pOrderMapper.selectByExample(example);
+        if (orders.size()>0){
+          POrder pOrder=orders.get(0);
+          pOrder.setStatus(Constant.getOderStatusDelete());
+            if (pOrderMapper.updateByPrimaryKey(pOrder)>0)
+                return new ReturnMessage(1,"订单删除成功");
+        }
+        return new ReturnMessage(0,"删除失败,您不存在该订单！");
     }
 }

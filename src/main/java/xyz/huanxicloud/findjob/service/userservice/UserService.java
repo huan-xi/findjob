@@ -14,4 +14,6 @@ public interface UserService {
     public ReturnMessage cancelOrder(String userId, int orderId);
 
     public ReturnMessage getOrders(String id,int page,int size);
+
+    public ReturnMessage deleteOrders(String userId, int orderId);
 }

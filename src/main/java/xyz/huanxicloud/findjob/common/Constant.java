@@ -8,6 +8,7 @@ public class Constant {
     private static final String ODER_STATUS_AGREE="2";
     private static final String ODER_STATUS_FINISH="3";
     private static final String ODER_STATUS_CANCEL="4";
+    private static final String ODER_STATUS_DELETE="5";
     //日志常量
     private static final String Log_USER_USER="1";
     private static final String Log_USER_VENDER="2";
@@ -47,6 +48,10 @@ public class Constant {
 
     public static String getLog_USER_ADMIN() {
         return Log_USER_ADMIN;
+    }
+
+    public static String getOderStatusDelete() {
+        return ODER_STATUS_DELETE;
     }
 
     public static String getLog_ORPRATE_CANCEL_ORDER() {

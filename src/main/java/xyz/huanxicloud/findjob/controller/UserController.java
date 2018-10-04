@@ -75,6 +75,13 @@ public String test(@RequestHeader("Token") String token){
         }
         return new ReturnMessage(1000, "上传失败");
     }
+    private String getUserId(String token){
+        return JwtUserTokenUtil.getUserIdFromToken(token);
+    }
+    @GetMapping("/deleteOrders")
+    public ReturnMessage deleteOrders(@RequestHeader("Token") String token,int orderId){
+        return  userService.deleteOrders(getUserId(token),orderId);
+    }
     /**
      * 编辑信息
      * @return
