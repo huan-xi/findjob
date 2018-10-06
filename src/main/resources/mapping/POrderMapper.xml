@@ -104,6 +104,7 @@
     from p_order
     where order_id = #{orderId,jdbcType=INTEGER}
   </select>
+
   <select id="selectOrderByPrimaryKey" parameterType="java.lang.Integer" resultMap="OrderResultMap">
     select v.name venderName,v.phone venderPhone,v.vender_id,o.status,o.order_id,o.work_time,o.user_id,o.end_time,p.position_id,o.create_time,p.type
 from p_order o,position p,vender v

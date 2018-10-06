@@ -21,6 +21,8 @@ public class Vender {
 
     private String address;
 
+    private String valid;
+
     public String getVenderId() {
         return venderId;
     }
@@ -99,5 +101,13 @@ public class Vender {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
+    }
+
+    public String getValid() {
+        return valid;
+    }
+
+    public void setValid(String valid) {
+        this.valid = valid == null ? null : valid.trim();
     }
 }

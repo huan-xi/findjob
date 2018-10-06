@@ -12,6 +12,7 @@
     <result column="latitude" jdbcType="REAL" property="latitude" />
     <result column="longitude" jdbcType="REAL" property="longitude" />
     <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="valid" jdbcType="CHAR" property="valid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     vender_id, create_time, name, contacts, phone, status, address_desc, latitude, longitude, 
-    address
+    address, valid
   </sql>
   <select id="selectByExample" parameterType="xyz.huanxicloud.findjob.pojo.VenderExample" resultMap="BaseResultMap">
     select
@@ -109,11 +110,11 @@
     insert into vender (vender_id, create_time, name, 
       contacts, phone, status, 
       address_desc, latitude, longitude, 
-      address)
+      address, valid)
     values (#{venderId,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
       #{contacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{addressDesc,jdbcType=CHAR}, #{latitude,jdbcType=REAL}, #{longitude,jdbcType=REAL}, 
-      #{address,jdbcType=VARCHAR})
+      #{address,jdbcType=VARCHAR}, #{valid,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="xyz.huanxicloud.findjob.pojo.Vender">
     insert into vender
@@ -148,6 +149,9 @@
       <if test="address != null">
         address,
       </if>
+      <if test="valid != null">
+        valid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="venderId != null">
@@ -179,6 +183,9 @@
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -221,6 +228,9 @@
       <if test="record.address != null">
         address = #{record.address,jdbcType=VARCHAR},
       </if>
+      <if test="record.valid != null">
+        valid = #{record.valid,jdbcType=CHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -237,7 +247,8 @@
       address_desc = #{record.addressDesc,jdbcType=CHAR},
       latitude = #{record.latitude,jdbcType=REAL},
       longitude = #{record.longitude,jdbcType=REAL},
-      address = #{record.address,jdbcType=VARCHAR}
+      address = #{record.address,jdbcType=VARCHAR},
+      valid = #{record.valid,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,6 +283,9 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="valid != null">
+        valid = #{valid,jdbcType=CHAR},
+      </if>
     </set>
     where vender_id = #{venderId,jdbcType=VARCHAR}
   </update>
@@ -285,7 +299,8 @@
       address_desc = #{addressDesc,jdbcType=CHAR},
       latitude = #{latitude,jdbcType=REAL},
       longitude = #{longitude,jdbcType=REAL},
-      address = #{address,jdbcType=VARCHAR}
+      address = #{address,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=CHAR}
     where vender_id = #{venderId,jdbcType=VARCHAR}
   </update>
 </mapper>

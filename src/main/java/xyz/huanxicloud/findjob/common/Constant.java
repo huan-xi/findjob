@@ -6,6 +6,13 @@ public class Constant {
     //角色状态
     public final static String ROUE_STATUS_NORMAL="1";
     public final static String ROUE_STATUS_FORBID="2";
+    //职位状态
+    public final static String POSITION_STATUS_OK="1";
+    public final static String POSITION_STATUS_NO="2";
+    //验证常量
+    public final static String VAILID_WAITE="1";
+    public final static String VAILID_PASS="2";
+    public final static String VAILID_NOPASS="3";
     //订单常量
     private static final String ODER_STATUS_WAITE="1";
     private static final String ODER_STATUS_AGREE="2";
@@ -43,6 +50,26 @@ public class Constant {
 
     public static String getOderStatusCancel() {
         return ODER_STATUS_CANCEL;
+    }
+
+    public static String getVailidWaite() {
+        return VAILID_WAITE;
+    }
+
+    public static String getVailidPass() {
+        return VAILID_PASS;
+    }
+
+    public static String getVailidNopass() {
+        return VAILID_NOPASS;
+    }
+
+    public static String getPositionStatusOk() {
+        return POSITION_STATUS_OK;
+    }
+
+    public static String getPositionStatusNo() {
+        return POSITION_STATUS_NO;
     }
 
     public static String getLog_USER_VENDER() {

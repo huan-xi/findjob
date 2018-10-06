@@ -41,10 +41,16 @@ public class VenderController {
     }
     @PostMapping("/publicPosition")
     public ReturnMessage publicPosition(@RequestHeader("Token") String token,Position position){
-        Vender vender= JwtVenderUtil.getVenderFormToken(token);
-        return positionService.publicPosition(vender.getVenderId(),vender.getName(),position);
+        String vender= JwtVenderUtil.getVenderIdFromToken(token);
+        return positionService.publicPosition(vender,position);
     }
-
+    @PostMapping("/editPosition")
+    public ReturnMessage editPosition(@RequestHeader("Token") String token,Position position){
+        String vender= JwtVenderUtil.getVenderIdFromToken(token);
+        if (position.getPositionId()==null)
+            return new ReturnMessage(0,"提交异常");
+        return positionService.editPosition(vender,position);
+    }
     /**
      * 上传视频
      * @param video

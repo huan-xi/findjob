@@ -49,6 +49,18 @@ public String test(@RequestHeader("Token") String token){
         String userId= JwtUserTokenUtil.getUserIdFromToken(token);
         return userService.cancelOrder(userId,orderId);
     }
+    @GetMapping("/deleteOrder")
+    public ReturnMessage deleteOrder(@RequestHeader("Token") String token,int orderId){
+        if (StringUtils.isEmpty(orderId)) return new ReturnMessage(100,"请求异常");
+        String userId= JwtUserTokenUtil.getUserIdFromToken(token);
+        return userService.deleteOrders(userId,orderId);
+    }
+    @GetMapping("/finishOrder")
+    public ReturnMessage finishOrder(@RequestHeader("Token") String token,int orderId){
+        if (StringUtils.isEmpty(orderId)) return new ReturnMessage(100,"请求异常");
+        String userId= JwtUserTokenUtil.getUserIdFromToken(token);
+        return userService.finishOrders(userId,orderId);
+    }
     @PostMapping("/uploadIdCard")
     public ReturnMessage uploadIdCard(@RequestHeader("Token") String token,MultipartFile idCard){
         String temp=System.getProperty("os.name").contains("indow")?"f:\\": "/var/tmp/upload";

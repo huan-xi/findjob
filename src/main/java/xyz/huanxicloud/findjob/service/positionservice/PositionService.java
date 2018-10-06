@@ -4,7 +4,7 @@ import xyz.huanxicloud.findjob.common.ReturnMessage;
 import xyz.huanxicloud.findjob.pojo.Position;
 
 public interface PositionService {
-    public ReturnMessage publicPosition(String id,String name,Position position);
+    public ReturnMessage publicPosition(String id,Position position);
 
     /**
      * 获取已发布职位信息
@@ -24,4 +24,6 @@ public interface PositionService {
     public  Position getPositionInfo(int positionId);
 
     public int update(Position position);
+
+    public ReturnMessage editPosition(String vender, Position position);
 }

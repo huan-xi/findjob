@@ -13,6 +13,8 @@ public class Position {
 
     private String salary;
 
+    private String positionDesc;
+
     private String videoSrc;
 
     private Integer count;
@@ -23,7 +25,7 @@ public class Position {
 
     private String company;
 
-    private String positionDesc;
+    private String status;
 
     public Integer getPositionId() {
         return positionId;
@@ -73,6 +75,14 @@ public class Position {
         this.salary = salary == null ? null : salary.trim();
     }
 
+    public String getPositionDesc() {
+        return positionDesc;
+    }
+
+    public void setPositionDesc(String positionDesc) {
+        this.positionDesc = positionDesc == null ? null : positionDesc.trim();
+    }
+
     public String getVideoSrc() {
         return videoSrc;
     }
@@ -113,11 +123,11 @@ public class Position {
         this.company = company == null ? null : company.trim();
     }
 
-    public String getPositionDesc() {
-        return positionDesc;
+    public String getStatus() {
+        return status;
     }
 
-    public void setPositionDesc(String positionDesc) {
-        this.positionDesc = positionDesc == null ? null : positionDesc.trim();
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 }
