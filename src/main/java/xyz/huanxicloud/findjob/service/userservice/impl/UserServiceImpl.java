@@ -157,7 +157,9 @@ public class UserServiceImpl implements UserService {
         Page<POrder> pOrders = (Page<POrder>) pOrderMapper.selectByExample(example);
         List<Order> orders = new ArrayList<>();
         for (POrder p : pOrders) {
-            orders.add(pOrderMapper.selectOrderByPrimaryKey(p.getOrderId()));
+            Order order=pOrderMapper.selectOrderByPrimaryKey(p.getOrderId());
+            if (order!=null)
+            orders.add(order);
         }
         return new ReturnMessage(1, new PageResult(pOrders.getTotal(), orders, pOrders.getPageNum()));
     }
