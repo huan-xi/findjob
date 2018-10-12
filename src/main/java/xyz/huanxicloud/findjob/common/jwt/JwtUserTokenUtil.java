@@ -33,7 +33,7 @@ public class JwtUserTokenUtil implements Serializable {
      * @return 令牌
      */
     private static String generateToken(Map<String, Object> claims) {
-        Date expirationDate = new Date(System.currentTimeMillis() + 2592000L * 1000);
+        Date expirationDate = new Date(System.currentTimeMillis() + Constant.getTokenTime());
         return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, Constant.getUserJetSercret()).compact();
     }
 

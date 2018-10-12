@@ -17,19 +17,36 @@ public class Constant {
     private static final String ODER_STATUS_WAITE="1";
     private static final String ODER_STATUS_AGREE="2";
     private static final String ODER_STATUS_FINISH="3";
-    private static final String ODER_STATUS_CANCEL="4";
-    private static final String ODER_STATUS_DELETE="5";
+    private static final String ODER_STATUS_USER_CANCEL ="4";
+    private static final String ODER_STATUS_VENDER_CANCEL ="8";
+    private static final String ODER_STATUS_USER_DELETE ="5";
+    private static final String ODER_STATUS_VENDER_DELETE ="6";
+    private static final String ODER_STATUS_ALL_DELETE ="7";
     //日志常量
     private static final String Log_USER_USER="1";
     private static final String Log_USER_VENDER="2";
     private static final String Log_USER_ADMIN="3";
     private static final String Log_ORPRATE_CANCEL_ORDER="1";
+    //Token 失效时间
+    public static long TOKEN_TIME= 60*60*48; //两天
     public static String getUserJetSercret() {
         return USER_JET_SERCRET;
     }
 
+    public static long getTokenTime() {
+        return TOKEN_TIME;
+    }
+
     public static String getVenderJwtSercret() {
         return VENDER_JWT_SERCRET;
+    }
+
+    public static String getOderStatusVenderCancel() {
+        return ODER_STATUS_VENDER_CANCEL;
+    }
+
+    public static void setTokenTime(long tokenTime) {
+        TOKEN_TIME = tokenTime;
     }
 
     public static String getOderStatusWaite() {
@@ -48,8 +65,16 @@ public class Constant {
         return Log_USER_USER;
     }
 
-    public static String getOderStatusCancel() {
-        return ODER_STATUS_CANCEL;
+    public static String getOderStatusVenderDelete() {
+        return ODER_STATUS_VENDER_DELETE;
+    }
+
+    public static String getOderStatusAllDelete() {
+        return ODER_STATUS_ALL_DELETE;
+    }
+
+    public static String getOderStatusUserCancel() {
+        return ODER_STATUS_USER_CANCEL;
     }
 
     public static String getVailidWaite() {
@@ -80,8 +105,8 @@ public class Constant {
         return Log_USER_ADMIN;
     }
 
-    public static String getOderStatusDelete() {
-        return ODER_STATUS_DELETE;
+    public static String getOderStatusUserDelete() {
+        return ODER_STATUS_USER_DELETE;
     }
 
     public static String getRoueStatusNormal() {

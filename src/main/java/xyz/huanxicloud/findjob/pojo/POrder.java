@@ -7,6 +7,8 @@ public class POrder {
 
     private Integer positionId;
 
+    private String venderId;
+
     private Long workTime;
 
     private Long createTime;
@@ -37,6 +39,14 @@ public class POrder {
 
     public void setPositionId(Integer positionId) {
         this.positionId = positionId;
+    }
+
+    public String getVenderId() {
+        return venderId;
+    }
+
+    public void setVenderId(String venderId) {
+        this.venderId = venderId == null ? null : venderId.trim();
     }
 
     public Long getWorkTime() {

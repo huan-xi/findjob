@@ -38,7 +38,7 @@ public class LoginContrller {
                 user.setStatus(Constant.getRoueStatusNormal());
                 user.setCreateTime(new Date().getTime());
                 user.setUserId(wxInfo.getOpenid());
-                user.setValid("0");
+                user.setValid(Constant.getVailidWaite());
                 if (userMapper.insert(user)>0){
                     //自动注册成功
                    token= JwtUserTokenUtil.generateToken(user);
@@ -68,6 +68,7 @@ public class LoginContrller {
                 //未注册，自动注册
                 vender=new Vender();
                 vender.setStatus(Constant.getRoueStatusNormal());
+                vender.setValid(Constant.getVailidWaite());
                 vender.setCreateTime(new Date().getTime());
                 vender.setVenderId(wxInfo.getOpenid());
                 if (venderMapper.insert(vender)>0){

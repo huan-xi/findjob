@@ -4,12 +4,16 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.huanxicloud.findjob.common.Constant;
 import xyz.huanxicloud.findjob.common.PageResult;
 import xyz.huanxicloud.findjob.common.ReturnMessage;
+import xyz.huanxicloud.findjob.mapper.POrderMapper;
 import xyz.huanxicloud.findjob.mapper.PositionMapper;
+import xyz.huanxicloud.findjob.mapper.UserMapper;
 import xyz.huanxicloud.findjob.mapper.VenderMapper;
 import xyz.huanxicloud.findjob.pojo.Position;
 import xyz.huanxicloud.findjob.pojo.PositionExample;
+import xyz.huanxicloud.findjob.pojo.Vender;
 import xyz.huanxicloud.findjob.service.positionservice.PositionService;
 
 import java.util.Date;
@@ -19,12 +23,20 @@ public class PositionServiceImpl implements PositionService {
     @Autowired
     PositionMapper positionMapper;
     @Autowired
+    UserMapper userMapper;
+    @Autowired
     VenderMapper venderMapper;
+    @Autowired
+    POrderMapper pOrderMapper;
     @Override
     public ReturnMessage publicPosition(String id,Position position) {
+        Vender vender=venderMapper.selectByPrimaryKey(id);
+        if (!(vender!=null&&vender.getPhone()!=null&&vender.getPhone().length()==11&&vender.getName()!=null&&vender.getName().length()>3&&vender.getAddress().length()>0))
+            return new ReturnMessage(3,"请填写好公司信息在发布职位信息");
         position.sethCount(0);
         position.setCreateTime(new Date().getTime());
         position.setVenderId(id);
+        position.setStatus(Constant.getPositionStatusOk());
         String name=venderMapper.selectByPrimaryKey(id).getName();
         position.setCompany(name);
         if (positionMapper.insert(position)>0)
@@ -36,7 +48,7 @@ public class PositionServiceImpl implements PositionService {
     public ReturnMessage getPositionsByVender(String id, int page, int size) {
         PageHelper.startPage(page,size);
         PositionExample example=new PositionExample();
-        example.createCriteria().andVenderIdEqualTo(id);
+        example.createCriteria().andVenderIdEqualTo(id).andStatusNotEqualTo(Constant.getPositionStatusNo());
         Page<Position> positions= (Page<Position>) positionMapper.selectByExample(example);
         return new ReturnMessage(1,new PageResult(positions.getTotal(),positions.getResult(),positions.getPageNum()));
     }
@@ -45,13 +57,14 @@ public class PositionServiceImpl implements PositionService {
     public ReturnMessage getPositions(int page, int size) {
         PageHelper.startPage(page,size);
         PositionExample example=new PositionExample();
+        example.createCriteria().andStatusNotEqualTo(Constant.getPositionStatusNo()) //没有禁用
+        .andCreateTimeLessThan(new Date().getTime()-1000*120); //两分钟之前
         Page<Position> positions= (Page<Position>) positionMapper.selectByExample(example);
         return new ReturnMessage(1,new PageResult(positions.getTotal(),positions.getResult(),positions.getPageNum()));
     }
 
     @Override
     public ReturnMessage getPosition(int id) {
-
         return new ReturnMessage(1,positionMapper.selectByPrimaryKey(id));
     }
 
@@ -77,4 +90,14 @@ public class PositionServiceImpl implements PositionService {
         if (positionMapper.updateByPrimaryKey(position)>0) return new ReturnMessage(1,"修改成功");
         return new ReturnMessage(2,"修改失败,请稍后重试!");
     }
+
+    @Override
+    public ReturnMessage deletePosition(String id, int positionId) {
+        Position position=positionMapper.selectByPrimaryKey(positionId);
+        position.setStatus(Constant.getPositionStatusNo());
+        if (positionMapper.updateByPrimaryKey(position)>0) return new ReturnMessage(1,"删除成功！");
+        return new ReturnMessage(0,"删除失败！");
+    }
+
+
 }

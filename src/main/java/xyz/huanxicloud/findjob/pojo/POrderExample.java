@@ -294,6 +294,76 @@ public class POrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andVenderIdIsNull() {
+            addCriterion("vender_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdIsNotNull() {
+            addCriterion("vender_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdEqualTo(String value) {
+            addCriterion("vender_id =", value, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdNotEqualTo(String value) {
+            addCriterion("vender_id <>", value, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdGreaterThan(String value) {
+            addCriterion("vender_id >", value, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdGreaterThanOrEqualTo(String value) {
+            addCriterion("vender_id >=", value, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdLessThan(String value) {
+            addCriterion("vender_id <", value, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdLessThanOrEqualTo(String value) {
+            addCriterion("vender_id <=", value, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdLike(String value) {
+            addCriterion("vender_id like", value, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdNotLike(String value) {
+            addCriterion("vender_id not like", value, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdIn(List<String> values) {
+            addCriterion("vender_id in", values, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdNotIn(List<String> values) {
+            addCriterion("vender_id not in", values, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdBetween(String value1, String value2) {
+            addCriterion("vender_id between", value1, value2, "venderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVenderIdNotBetween(String value1, String value2) {
+            addCriterion("vender_id not between", value1, value2, "venderId");
+            return (Criteria) this;
+        }
+
         public Criteria andWorkTimeIsNull() {
             addCriterion("work_time is null");
             return (Criteria) this;

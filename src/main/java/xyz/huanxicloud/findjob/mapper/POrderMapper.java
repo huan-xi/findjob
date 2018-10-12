@@ -1,7 +1,6 @@
 package xyz.huanxicloud.findjob.mapper;
 
 import org.apache.ibatis.annotations.Param;
-import xyz.huanxicloud.findjob.pojo.Order;
 import xyz.huanxicloud.findjob.pojo.POrder;
 import xyz.huanxicloud.findjob.pojo.POrderExample;
 
@@ -21,7 +20,7 @@ public interface POrderMapper {
     List<POrder> selectByExample(POrderExample example);
 
     POrder selectByPrimaryKey(Integer orderId);
-    Order selectOrderByPrimaryKey(Integer orderId);
+
     int updateByExampleSelective(@Param("record") POrder record, @Param("example") POrderExample example);
 
     int updateByExample(@Param("record") POrder record, @Param("example") POrderExample example);

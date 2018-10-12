@@ -33,7 +33,6 @@ public class FindjobApplicationTests {
     OperateLogMapper operateLogMapper;
     @Test
     public void testorder(){
-     Order order= pOrderMapper.selectOrderByPrimaryKey(74);
         System.out.println("test");
     }
     @Test
@@ -46,6 +45,7 @@ public class FindjobApplicationTests {
         pOrderMapper.deleteByExample(new POrderExample());
         positionMapper.deleteByExample(new PositionExample());
     }
+    @Test
     public void delete(){
         userMapper.deleteByExample(new UserExample());
         venderMapper.deleteByExample(new VenderExample());

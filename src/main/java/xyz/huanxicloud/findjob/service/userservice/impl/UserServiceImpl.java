@@ -12,6 +12,7 @@ import xyz.huanxicloud.findjob.common.ReturnMessage;
 import xyz.huanxicloud.findjob.mapper.OperateLogMapper;
 import xyz.huanxicloud.findjob.mapper.POrderMapper;
 import xyz.huanxicloud.findjob.mapper.UserMapper;
+import xyz.huanxicloud.findjob.mapper.VenderMapper;
 import xyz.huanxicloud.findjob.pojo.*;
 import xyz.huanxicloud.findjob.service.positionservice.PositionService;
 import xyz.huanxicloud.findjob.service.userservice.UserService;
@@ -31,6 +32,8 @@ public class UserServiceImpl implements UserService {
     POrderMapper pOrderMapper;
     @Autowired
     OperateLogMapper operateLogMapper;
+    @Autowired
+    VenderMapper venderMapper;
 
     @Override
     public User findUserById(String id) {
@@ -67,6 +70,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public ReturnMessage orderPosition(String userId, int positionId) {
+        User user=userMapper.selectByPrimaryKey(userId);
+        if (!(user!=null&&user.getName()!=null&&user.getPhone()!=null&&user.getPhone().length()==11))
+            return new ReturnMessage(3,"请先填写信息再接单");
         //如果有单则不能再接今天的,如果没单随便接
         POrderExample pOrderExample = new POrderExample();
         pOrderExample.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo(Constant.getOderStatusWaite());
@@ -90,6 +96,7 @@ public class UserServiceImpl implements UserService {
             pOrder.setPositionId(positionId);
             pOrder.setUserId(userId);
             pOrder.setWorkTime(position.getTime());
+            pOrder.setVenderId(position.getVenderId());
             if (pOrderMapper.insert(pOrder) > 0) {
                 position.sethCount(position.gethCount() + 1);
                 //判断人员是否已满
@@ -128,7 +135,7 @@ public class UserServiceImpl implements UserService {
             //订单状态改为取消
             position.sethCount(position.gethCount() - 1);
             position.setStatus(Constant.getPositionStatusOk());
-            order.setStatus(Constant.getOderStatusCancel());
+            order.setStatus(Constant.getOderStatusUserCancel());
             //写入日志
             OperateLog operateLog = new OperateLog();
             operateLog.setCreateTime(new Date().getTime());
@@ -152,13 +159,16 @@ public class UserServiceImpl implements UserService {
         //获取没删除的订单
         POrderExample example = new POrderExample();
         example.createCriteria()
-                .andStatusNotEqualTo(Constant.getOderStatusDelete())
+                .andStatusNotEqualTo(Constant.getOderStatusUserDelete())
+                .andStatusNotEqualTo(Constant.getOderStatusAllDelete())
                 .andUserIdEqualTo(id);
         Page<POrder> pOrders = (Page<POrder>) pOrderMapper.selectByExample(example);
-        List<Order> orders = new ArrayList<>();
+        List<OrderWithVender> orders = new ArrayList<>();
         for (POrder p : pOrders) {
-            Order order=pOrderMapper.selectOrderByPrimaryKey(p.getOrderId());
-            if (order!=null)
+            OrderWithVender order = new OrderWithVender();
+            order.setpOrder(p);
+            order.setPosition(positionService.getPositionInfo(p.getPositionId()));
+            order.setVender(venderMapper.selectByPrimaryKey(p.getVenderId()));
             orders.add(order);
         }
         return new ReturnMessage(1, new PageResult(pOrders.getTotal(), orders, pOrders.getPageNum()));
@@ -180,8 +190,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ReturnMessage deleteOrders(String userId, int orderId) {
-        if (this.setOrderStatus(userId, orderId, Constant.getOderStatusDelete()) == 1)
-            return new ReturnMessage(1, "订单删除成功");
+        POrderExample example = new POrderExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andOrderIdEqualTo(orderId);
+        List<POrder> orders = pOrderMapper.selectByExample(example);
+        if (orders.size() > 0) {
+            POrder pOrder = orders.get(0);
+            if (pOrder.getStatus().equals(Constant.getOderStatusVenderDelete()))
+                pOrder.setStatus(Constant.getOderStatusAllDelete());
+            else
+                pOrder.setStatus(Constant.getOderStatusUserDelete());
+            if (pOrderMapper.updateByPrimaryKey(pOrder) > 0)
+                return new ReturnMessage(1, "订单删除成功");
+        }
         return new ReturnMessage(0, "删除失败,您不存在该订单！");
     }
 
