@@ -15,6 +15,7 @@ import xyz.huanxicloud.findjob.pojo.Position;
 import xyz.huanxicloud.findjob.pojo.PositionExample;
 import xyz.huanxicloud.findjob.pojo.Vender;
 import xyz.huanxicloud.findjob.service.positionservice.PositionService;
+import xyz.huanxicloud.findjob.util.Util;
 
 import java.util.Date;
 
@@ -31,7 +32,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public ReturnMessage publicPosition(String id,Position position) {
         Vender vender=venderMapper.selectByPrimaryKey(id);
-        if (!(vender!=null&&vender.getPhone()!=null&&vender.getPhone().length()==11&&vender.getName()!=null&&vender.getName().length()>3&&vender.getAddress().length()>0))
+        if (!(vender!=null&&vender.getPhone()!=null&&vender.getPhone().length()==11&&vender.getName()!=null&&vender.getName().length()>=3&&vender.getAddress().length()>0))
             return new ReturnMessage(3,"请填写好公司信息在发布职位信息");
         position.sethCount(0);
         position.setCreateTime(new Date().getTime());
@@ -44,11 +45,23 @@ public class PositionServiceImpl implements PositionService {
         return new ReturnMessage(0,"发布失败!");
     }
 
+    /**
+     *
+     * @param id
+     * @param page
+     * @param size
+     * @param type 1 差已完成 0差未完成
+     * @return
+     */
     @Override
-    public ReturnMessage getPositionsByVender(String id, int page, int size) {
+    public ReturnMessage getPositionsByVender(String id, int page, int size,int type) {
         PageHelper.startPage(page,size);
         PositionExample example=new PositionExample();
         example.createCriteria().andVenderIdEqualTo(id).andStatusNotEqualTo(Constant.getPositionStatusNo());
+        if(type==1)
+            example.getOredCriteria().get(0).andStatusNotEqualTo(Constant.getOderStatusWaite());
+        else
+            example.getOredCriteria().get(0).andStatusEqualTo(Constant.getOderStatusWaite());
         Page<Position> positions= (Page<Position>) positionMapper.selectByExample(example);
         return new ReturnMessage(1,new PageResult(positions.getTotal(),positions.getResult(),positions.getPageNum()));
     }
@@ -58,7 +71,8 @@ public class PositionServiceImpl implements PositionService {
         PageHelper.startPage(page,size);
         PositionExample example=new PositionExample();
         example.createCriteria().andStatusNotEqualTo(Constant.getPositionStatusNo()) //没有禁用
-        .andCreateTimeLessThan(new Date().getTime()-1000*120); //两分钟之前
+        .andCreateTimeLessThan(new Date().getTime()-1000*120)//两分钟之前
+        .andCreateTimeGreaterThan(Util.getTodayTime()); //大于今天
         Page<Position> positions= (Page<Position>) positionMapper.selectByExample(example);
         return new ReturnMessage(1,new PageResult(positions.getTotal(),positions.getResult(),positions.getPageNum()));
     }

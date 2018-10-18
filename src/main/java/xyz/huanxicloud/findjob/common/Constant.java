@@ -28,7 +28,7 @@ public class Constant {
     private static final String Log_USER_ADMIN="3";
     private static final String Log_ORPRATE_CANCEL_ORDER="1";
     //Token 失效时间
-    public static long TOKEN_TIME= 60*60*48; //两天
+    public static long TOKEN_TIME= 2592000000L; //30天
     public static String getUserJetSercret() {
         return USER_JET_SERCRET;
     }

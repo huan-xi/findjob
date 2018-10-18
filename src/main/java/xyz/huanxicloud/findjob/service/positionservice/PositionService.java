@@ -13,7 +13,7 @@ public interface PositionService {
      * @param size
      * @return
      */
-    public ReturnMessage getPositionsByVender(String id, int page, int size);
+    public ReturnMessage getPositionsByVender(String id, int page, int size,int type);
 
     public ReturnMessage getPositions(int page, int size);
 

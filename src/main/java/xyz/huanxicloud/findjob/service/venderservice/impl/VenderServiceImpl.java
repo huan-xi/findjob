@@ -99,7 +99,7 @@ public class VenderServiceImpl implements VenderService {
     }
 
     @Override
-    public ReturnMessage getOrders(String id, int page, int size) {
+    public ReturnMessage getOrders(String id, int page, int size,int type) {
         PageHelper.startPage(page, size);
         //获取没删除的订单
         POrderExample example = new POrderExample();
@@ -107,6 +107,10 @@ public class VenderServiceImpl implements VenderService {
                 .andStatusNotEqualTo(Constant.getOderStatusVenderDelete())
                 .andStatusNotEqualTo(Constant.getOderStatusAllDelete())
                 .andVenderIdEqualTo(id);
+        if (type==1)
+            example.getOredCriteria().get(0).andStatusEqualTo(Constant.getOderStatusWaite());
+        else
+            example.getOredCriteria().get(0).andStatusNotEqualTo(Constant.getOderStatusWaite());
         Page<POrder> pOrders = (Page<POrder>) pOrderMapper.selectByExample(example);
         List<OrderWithUser> orders = new ArrayList<>();
         for (POrder p : pOrders) {

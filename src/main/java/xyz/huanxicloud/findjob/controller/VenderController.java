@@ -37,9 +37,9 @@ public class VenderController {
     }
 
     @GetMapping("/getOrders")
-    public ReturnMessage getOrders(@RequestHeader("Token") String token, int page, int size) {
+    public ReturnMessage getOrders(@RequestHeader("Token") String token, int page, int size,int type) {
         String id = JwtVenderUtil.getVenderIdFromToken(token);
-        return venderService.getOrders(id, page, size);
+        return venderService.getOrders(id, page, size,type);
     }
 
     /**
@@ -50,9 +50,9 @@ public class VenderController {
      * @return
      */
     @GetMapping("/getPositions")
-    public ReturnMessage getPositions(@RequestHeader("Token") String token, int page, int size) {
+    public ReturnMessage getPositions(@RequestHeader("Token") String token, int page, int size,int type) {
         String id = JwtVenderUtil.getVenderIdFromToken(token);
-        return positionService.getPositionsByVender(id, page, size);
+        return positionService.getPositionsByVender(id, page, size,type);
     }
     @GetMapping("/deletePosition")
     public ReturnMessage deletePositions(@RequestHeader("Token") String token, int positionId){

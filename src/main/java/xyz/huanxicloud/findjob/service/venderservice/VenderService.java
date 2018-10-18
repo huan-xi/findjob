@@ -13,5 +13,5 @@ public interface VenderService {
     public ReturnMessage deleteOrder(String venderId, int orderId);
     public ReturnMessage deletePosition(String venderId, int positionId);
 
-    public ReturnMessage getOrders(String id, int page, int size);
+    public ReturnMessage getOrders(String id, int page, int size,int type);
 }

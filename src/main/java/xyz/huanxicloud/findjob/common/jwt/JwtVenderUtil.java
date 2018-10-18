@@ -22,7 +22,6 @@ import java.util.Map;
 public class JwtVenderUtil implements Serializable {
 
 
-
     /**
      * 从数据声明生成令牌
      *
@@ -60,8 +59,8 @@ public class JwtVenderUtil implements Serializable {
         Map<String, Object> claims = new HashMap<>(2);
         claims.put("sub", vender.getVenderId());
         claims.put("created", new Date());
-        claims.put("status",vender.getStatus());
-        claims.put("name",vender.getName());
+        claims.put("status", vender.getStatus());
+        claims.put("name", vender.getName());
         return generateToken(claims);
     }
 
@@ -85,12 +84,12 @@ public class JwtVenderUtil implements Serializable {
     public static Vender getVenderFormToken(String token) {
         Claims claims = getClaimsFromToken(token);
         Vender vender = new Vender();
-        if(claims.get("name")!=null)
-        vender.setName(claims.get("name").toString());
         try {
+            if (claims.get("name") != null)
+                vender.setName(claims.get("name").toString());
             vender.setStatus(claims.get("status").toString());
             vender.setVenderId(claims.getSubject());
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             //抓到空指针异常,解析失败(Token不合法)
             return null;
         }
