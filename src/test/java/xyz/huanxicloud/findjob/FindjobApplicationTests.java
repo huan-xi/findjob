@@ -35,18 +35,12 @@ public class FindjobApplicationTests {
     public void testorder(){
         System.out.println("test");
     }
-    @Test
-    public void deleteLog(){
-        operateLogMapper.deleteByExample(new OperateLogExample());
-        positionMapper.deleteByExample(new PositionExample());
-    }
-    @Test
-    public void deleteorder(){
-        pOrderMapper.deleteByExample(new POrderExample());
-        positionMapper.deleteByExample(new PositionExample());
-    }
+
     @Test
     public void delete(){
+        operateLogMapper.deleteByExample(new OperateLogExample());
+        pOrderMapper.deleteByExample(new POrderExample());
+        positionMapper.deleteByExample(new PositionExample());
         userMapper.deleteByExample(new UserExample());
         venderMapper.deleteByExample(new VenderExample());
     }

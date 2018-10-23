@@ -11,13 +11,12 @@ import xyz.huanxicloud.findjob.mapper.POrderMapper;
 import xyz.huanxicloud.findjob.mapper.PositionMapper;
 import xyz.huanxicloud.findjob.mapper.UserMapper;
 import xyz.huanxicloud.findjob.mapper.VenderMapper;
-import xyz.huanxicloud.findjob.pojo.Position;
-import xyz.huanxicloud.findjob.pojo.PositionExample;
-import xyz.huanxicloud.findjob.pojo.Vender;
+import xyz.huanxicloud.findjob.pojo.*;
 import xyz.huanxicloud.findjob.service.positionservice.PositionService;
 import xyz.huanxicloud.findjob.util.Util;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PositionServiceImpl implements PositionService {
@@ -111,6 +110,51 @@ public class PositionServiceImpl implements PositionService {
         position.setStatus(Constant.getPositionStatusNo());
         if (positionMapper.updateByPrimaryKey(position)>0) return new ReturnMessage(1,"删除成功！");
         return new ReturnMessage(0,"删除失败！");
+    }
+
+    @Override
+    public ReturnMessage search(int page, int size, String key) {
+        PageHelper.startPage(page,size);
+        PositionExample example=new PositionExample();
+        example.createCriteria().andStatusNotEqualTo(Constant.getPositionStatusNo()) //没有禁用
+                .andCreateTimeLessThan(new Date().getTime()-1000*120)//两分钟之前
+                .andCreateTimeGreaterThan(Util.getTodayTime())//大于今天
+                .andTypeLike("%"+key+"%"); //搜索
+        Page<Position> positions= (Page<Position>) positionMapper.selectByExample(example);
+        return new ReturnMessage(1,new PageResult(positions.getTotal(),positions.getResult(),positions.getPageNum()));
+    }
+
+    @Override
+    public ReturnMessage deleteOrderByVender(String id, int orderId) {
+        POrderExample example = new POrderExample();
+        example.createCriteria().andVenderIdEqualTo(id)
+                .andOrderIdEqualTo(orderId);
+        List<POrder> orders = pOrderMapper.selectByExample(example);
+        if (deleteOrder(orders)) return new ReturnMessage(1, "订单删除成功");
+        return new ReturnMessage(0, "删除失败,您不存在该订单！");
+    }
+
+    private boolean deleteOrder(List<POrder> orders) {
+        if (orders.size() > 0) {
+            POrder pOrder = orders.get(0);
+            if (pOrder.getStatus().equals(Constant.getOderStatusVenderDelete()))
+                pOrder.setStatus(Constant.getOderStatusAllDelete());
+            else
+                pOrder.setStatus(Constant.getOderStatusVenderDelete());
+            if (pOrderMapper.updateByPrimaryKey(pOrder) > 0)
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public ReturnMessage deleteOrder(String id, int orderId) {
+        POrderExample example = new POrderExample();
+        example.createCriteria().andUserIdEqualTo(id)
+                .andOrderIdEqualTo(orderId);
+        List<POrder> orders = pOrderMapper.selectByExample(example);
+        if (deleteOrder(orders)) return new ReturnMessage(1, "订单删除成功");
+        return new ReturnMessage(0, "删除失败,您不存在该订单！");
     }
 
 

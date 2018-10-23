@@ -30,10 +30,11 @@ public class VenderServiceImpl implements VenderService {
     PositionMapper positionMapper;
     @Autowired
     OperateLogMapper operateLogMapper;
+
     @Override
     public ReturnMessage editVender(String id, Vender vender) {
         //数据校验
-        if (vender.getPhone().length()!=11) return new ReturnMessage(5002,"手机号格式不正确");
+        if (vender.getPhone().length() != 11) return new ReturnMessage(5002, "手机号格式不正确");
         Vender venderl = venderMapper.selectByPrimaryKey(id);
         vender.setVenderId(id);
         vender.setStatus(venderl.getStatus());
@@ -45,10 +46,12 @@ public class VenderServiceImpl implements VenderService {
 
     @Override
     public ReturnMessage getInfo(String id) {
-       Vender vender =venderMapper.selectByPrimaryKey(id);;
-        if (vender !=null)return new ReturnMessage(1,vender);
-        return new ReturnMessage(0,"获取信息失败");
+        Vender vender = venderMapper.selectByPrimaryKey(id);
+        ;
+        if (vender != null) return new ReturnMessage(1, vender);
+        return new ReturnMessage(0, "获取信息失败");
     }
+
     @Transactional
     @Override
     public ReturnMessage cancelOrder(String venderId, int orderId) {
@@ -66,7 +69,7 @@ public class VenderServiceImpl implements VenderService {
             //开始取消
             POrder order = pOrderMapper.selectByPrimaryKey(orderId);
             //职位数量加1
-            Position position = positionMapper.selectByPrimaryKey(orderId);
+            Position position = positionMapper.selectByPrimaryKey(order.getPositionId());
             if (position == null) return new ReturnMessage(2, "订单异常,修改失败");
             //订单状态改为取消
             position.sethCount(position.gethCount() - 1);
@@ -90,7 +93,24 @@ public class VenderServiceImpl implements VenderService {
 
     @Override
     public ReturnMessage deleteOrder(String venderId, int orderId) {
-        return null;
+        return deleteOrder(venderId, orderId, pOrderMapper);
+    }
+
+    public static ReturnMessage deleteOrder(String venderId, int orderId, POrderMapper pOrderMapper) {
+        POrderExample example = new POrderExample();
+        example.createCriteria().andUserIdEqualTo(venderId)
+                .andOrderIdEqualTo(orderId);
+        List<POrder> orders = pOrderMapper.selectByExample(example);
+        if (orders.size() > 0) {
+            POrder pOrder = orders.get(0);
+            if (pOrder.getStatus().equals(Constant.getOderStatusVenderDelete()))
+                pOrder.setStatus(Constant.getOderStatusAllDelete());
+            else
+                pOrder.setStatus(Constant.getOderStatusUserDelete());
+            if (pOrderMapper.updateByPrimaryKey(pOrder) > 0)
+                return new ReturnMessage(1, "订单删除成功");
+        }
+        return new ReturnMessage(0, "删除失败,您不存在该订单！");
     }
 
     @Override
@@ -99,7 +119,7 @@ public class VenderServiceImpl implements VenderService {
     }
 
     @Override
-    public ReturnMessage getOrders(String id, int page, int size,int type) {
+    public ReturnMessage getOrders(String id, int page, int size, int type) {
         PageHelper.startPage(page, size);
         //获取没删除的订单
         POrderExample example = new POrderExample();
@@ -107,14 +127,14 @@ public class VenderServiceImpl implements VenderService {
                 .andStatusNotEqualTo(Constant.getOderStatusVenderDelete())
                 .andStatusNotEqualTo(Constant.getOderStatusAllDelete())
                 .andVenderIdEqualTo(id);
-        if (type==1)
+        if (type == 1)
             example.getOredCriteria().get(0).andStatusEqualTo(Constant.getOderStatusWaite());
         else
             example.getOredCriteria().get(0).andStatusNotEqualTo(Constant.getOderStatusWaite());
         Page<POrder> pOrders = (Page<POrder>) pOrderMapper.selectByExample(example);
         List<OrderWithUser> orders = new ArrayList<>();
         for (POrder p : pOrders) {
-            OrderWithUser order=new OrderWithUser();
+            OrderWithUser order = new OrderWithUser();
             order.setpOrder(p);
             order.setPosition(positionMapper.selectByPrimaryKey(p.getPositionId()));
             order.setUser(userMapper.selectByPrimaryKey(p.getUserId()));

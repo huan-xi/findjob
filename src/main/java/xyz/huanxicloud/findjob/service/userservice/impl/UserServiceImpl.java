@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static xyz.huanxicloud.findjob.service.venderservice.impl.VenderServiceImpl.deleteOrder;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -94,9 +96,9 @@ public class UserServiceImpl implements UserService {
             pOrder.setCreateTime(new Date().getTime());
             pOrder.setStatus(Constant.getOderStatusWaite());
             pOrder.setPositionId(positionId);
-            pOrder.setUserId(userId);
             pOrder.setWorkTime(position.getTime());
             pOrder.setVenderId(position.getVenderId());
+            pOrder.setUserId(userId);
             if (pOrderMapper.insert(pOrder) > 0) {
                 position.sethCount(position.gethCount() + 1);
                 //判断人员是否已满
@@ -108,6 +110,7 @@ public class UserServiceImpl implements UserService {
             }
             return new ReturnMessage(0, "接单失败");
         } catch (Exception e) {
+            e.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return new ReturnMessage(4, "接单失败,服务器出现异常");
         }
@@ -190,20 +193,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ReturnMessage deleteOrders(String userId, int orderId) {
-        POrderExample example = new POrderExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andOrderIdEqualTo(orderId);
-        List<POrder> orders = pOrderMapper.selectByExample(example);
-        if (orders.size() > 0) {
-            POrder pOrder = orders.get(0);
-            if (pOrder.getStatus().equals(Constant.getOderStatusVenderDelete()))
-                pOrder.setStatus(Constant.getOderStatusAllDelete());
-            else
-                pOrder.setStatus(Constant.getOderStatusUserDelete());
-            if (pOrderMapper.updateByPrimaryKey(pOrder) > 0)
-                return new ReturnMessage(1, "订单删除成功");
-        }
-        return new ReturnMessage(0, "删除失败,您不存在该订单！");
+        return deleteOrder(userId, orderId, pOrderMapper);
     }
 
     @Override

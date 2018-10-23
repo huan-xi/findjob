@@ -39,4 +39,8 @@ public class PublicController {
     public ReturnMessage getTypes(){
         return systemService.getAllWT();
     }
+    @GetMapping("/search")
+    public ReturnMessage searchPositions(int page, int size,String key){
+        return positionService.search(page,size,key);
+    }
 }

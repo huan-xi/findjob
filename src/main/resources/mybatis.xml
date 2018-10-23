@@ -32,7 +32,7 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <table schema="" tableName="p_order"/>
+       <!-- <table schema="" tableName="p_order"/>-->
         <!--<table schema="" tableName="vender"/>-->
         <!--<table schema="" tableName="operate_log"/>-->
    <!--     <table schema="" tableName="bill" ></table>
@@ -41,9 +41,9 @@
             <columnOverride column="com_desc" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <columnOverride column="images" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>-->
-      <!--  <table schema="" tableName="position">
+        <table schema="" tableName="position">
             <columnOverride column="position_desc" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        </table>-->
+        </table>
        <!-- <table schema="" tableName="work_type"/>-->
     </context>
 </generatorConfiguration>

@@ -59,6 +59,11 @@ public class VenderController {
         String id = JwtVenderUtil.getVenderIdFromToken(token);
         return positionService.deletePosition(id, positionId);
     }
+    @GetMapping("/deleteOrder")
+    public ReturnMessage deleteOrder(@RequestHeader("Token") String token, int orderId){
+        String id = JwtVenderUtil.getVenderIdFromToken(token);
+        return positionService.deleteOrderByVender(id, orderId);
+    }
     @PostMapping("/publicPosition")
     public ReturnMessage publicPosition(@RequestHeader("Token") String token, Position position) {
         String id = JwtVenderUtil.getVenderIdFromToken(token);

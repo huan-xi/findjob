@@ -32,4 +32,9 @@ public interface PositionService {
     public ReturnMessage editPosition(String vender, Position position);
 
     public ReturnMessage deletePosition(String id, int positionId);
+
+    public ReturnMessage search(int page, int size, String key);
+
+    public ReturnMessage deleteOrder(String id, int orderId);
+    public ReturnMessage deleteOrderByVender(String id, int orderId);
 }
