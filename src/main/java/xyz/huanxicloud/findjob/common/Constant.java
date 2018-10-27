@@ -3,6 +3,10 @@ package xyz.huanxicloud.findjob.common;
 public class Constant {
     private static final String USER_JET_SERCRET= "micherhimmeCteqdi0";
     private static final String VENDER_JWT_SERCRET= "micherhimVerderqdi0";
+    //系统信息常量
+    private final static String SYSTEM_KEY_WT="WT";
+    private final static String SYSTEM_KEY_PHONE="KF_PHONE";
+    private final static String SYSTEM_KEY_NAME="KF_NAME";
     //角色状态
     public final static String ROUE_STATUS_NORMAL="1";
     public final static String ROUE_STATUS_FORBID="2";
@@ -30,6 +34,7 @@ public class Constant {
     private static final String Log_ORPRATE_CANCEL_ORDER="1";
     //Token 失效时间
     public static long TOKEN_TIME= 2592000000L; //30天
+    private static final String FEEDBACK_STATUS_OK="1";
     public static String getUserJetSercret() {
         return USER_JET_SERCRET;
     }
@@ -58,8 +63,24 @@ public class Constant {
         return ODER_STATUS_AGREE;
     }
 
+    public static String getFeedbackStatusOk() {
+        return FEEDBACK_STATUS_OK;
+    }
+
     public static String getOderStatusFinish() {
         return ODER_STATUS_FINISH;
+    }
+
+    public static String getSystemKeyWt() {
+        return SYSTEM_KEY_WT;
+    }
+
+    public static String getSystemKeyPhone() {
+        return SYSTEM_KEY_PHONE;
+    }
+
+    public static String getSystemKeyName() {
+        return SYSTEM_KEY_NAME;
     }
 
     public static String getLog_USER_USER() {

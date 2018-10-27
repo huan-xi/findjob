@@ -41,9 +41,10 @@
             <columnOverride column="com_desc" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <columnOverride column="images" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>-->
-        <table schema="" tableName="position">
+        <!--<table schema="" tableName="position">
             <columnOverride column="position_desc" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        </table>
+        </table>-->
        <!-- <table schema="" tableName="work_type"/>-->
+       <table schema="" tableName="feedback"/>
     </context>
 </generatorConfiguration>

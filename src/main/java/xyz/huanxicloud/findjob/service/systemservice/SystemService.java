@@ -5,4 +5,6 @@ import xyz.huanxicloud.findjob.common.ReturnMessage;
 public interface SystemService {
     public ReturnMessage getAllWT();
     public ReturnMessage addWT(String name);
+
+   public ReturnMessage getServiceInfo();
 }
