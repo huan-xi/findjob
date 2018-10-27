@@ -105,4 +105,10 @@ public class VenderController {
         }
         return new ReturnMessage(1000, "上传失败");
     }
+
+    @GetMapping("/finishOrder")
+     public ReturnMessage finishOrder(@RequestHeader("Token") String token, int orderId){
+             String id = JwtVenderUtil.getVenderIdFromToken(token);
+             return positionService.finishOrder(id, orderId);
+     }
 }

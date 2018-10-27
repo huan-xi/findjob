@@ -9,6 +9,7 @@ public class Constant {
     //职位状态
     public final static String POSITION_STATUS_OK="1";
     public final static String POSITION_STATUS_NO="2";
+    public final static String POSITION_STATUS_TIMEOUT="3"; //过期
     //验证常量
     public final static String VAILID_WAITE="1";
     public final static String VAILID_PASS="2";
@@ -83,6 +84,10 @@ public class Constant {
 
     public static String getVailidPass() {
         return VAILID_PASS;
+    }
+
+    public static String getPositionStatusTimeout() {
+        return POSITION_STATUS_TIMEOUT;
     }
 
     public static String getVailidNopass() {

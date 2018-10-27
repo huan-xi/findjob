@@ -37,4 +37,6 @@ public interface PositionService {
 
     public ReturnMessage deleteOrder(String id, int orderId);
     public ReturnMessage deleteOrderByVender(String id, int orderId);
+
+    public ReturnMessage finishOrder(String id, int orderId);
 }
