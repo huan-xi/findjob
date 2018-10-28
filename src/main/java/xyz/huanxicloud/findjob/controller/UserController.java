@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import xyz.huanxicloud.findjob.common.ReturnMessage;
 import xyz.huanxicloud.findjob.common.jwt.JwtUserTokenUtil;
 import xyz.huanxicloud.findjob.pojo.User;
+import xyz.huanxicloud.findjob.service.systemservice.SystemService;
 import xyz.huanxicloud.findjob.service.userservice.UserService;
 import xyz.huanxicloud.findjob.util.AliOSSUtil;
 
@@ -19,6 +20,8 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    SystemService systemService;
 @GetMapping("test")
 public String test(@RequestHeader("Token") String token){
     return getUser(token).getUserId();

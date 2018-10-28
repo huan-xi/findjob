@@ -7,4 +7,7 @@ public interface SystemService {
     public ReturnMessage addWT(String name);
 
    public ReturnMessage getServiceInfo();
+
+    public ReturnMessage getUserNotice();
+    public ReturnMessage getVenderNotice();
 }

@@ -9,6 +9,7 @@ import xyz.huanxicloud.findjob.common.jwt.JwtVenderUtil;
 import xyz.huanxicloud.findjob.pojo.Position;
 import xyz.huanxicloud.findjob.pojo.Vender;
 import xyz.huanxicloud.findjob.service.positionservice.PositionService;
+import xyz.huanxicloud.findjob.service.systemservice.SystemService;
 import xyz.huanxicloud.findjob.service.venderservice.VenderService;
 import xyz.huanxicloud.findjob.util.AliOSSUtil;
 
@@ -23,6 +24,8 @@ public class VenderController {
     PositionService positionService;
     @Autowired
     VenderService venderService;
+    @Autowired
+    SystemService systemService;
 
     @PostMapping("/editVender")
     public ReturnMessage editVender(@RequestHeader("Token") String token, Vender vender) {
@@ -37,9 +40,9 @@ public class VenderController {
     }
 
     @GetMapping("/getOrders")
-    public ReturnMessage getOrders(@RequestHeader("Token") String token, int page, int size,int type) {
+    public ReturnMessage getOrders(@RequestHeader("Token") String token, int page, int size, int type) {
         String id = JwtVenderUtil.getVenderIdFromToken(token);
-        return venderService.getOrders(id, page, size,type);
+        return venderService.getOrders(id, page, size, type);
     }
 
     /**
@@ -50,20 +53,23 @@ public class VenderController {
      * @return
      */
     @GetMapping("/getPositions")
-    public ReturnMessage getPositions(@RequestHeader("Token") String token, int page, int size,int type) {
+    public ReturnMessage getPositions(@RequestHeader("Token") String token, int page, int size, int type) {
         String id = JwtVenderUtil.getVenderIdFromToken(token);
-        return positionService.getPositionsByVender(id, page, size,type);
+        return positionService.getPositionsByVender(id, page, size, type);
     }
+
     @GetMapping("/deletePosition")
-    public ReturnMessage deletePositions(@RequestHeader("Token") String token, int positionId){
+    public ReturnMessage deletePositions(@RequestHeader("Token") String token, int positionId) {
         String id = JwtVenderUtil.getVenderIdFromToken(token);
         return positionService.deletePosition(id, positionId);
     }
+
     @GetMapping("/deleteOrder")
-    public ReturnMessage deleteOrder(@RequestHeader("Token") String token, int orderId){
+    public ReturnMessage deleteOrder(@RequestHeader("Token") String token, int orderId) {
         String id = JwtVenderUtil.getVenderIdFromToken(token);
         return positionService.deleteOrderByVender(id, orderId);
     }
+
     @PostMapping("/publicPosition")
     public ReturnMessage publicPosition(@RequestHeader("Token") String token, Position position) {
         String id = JwtVenderUtil.getVenderIdFromToken(token);
@@ -77,12 +83,14 @@ public class VenderController {
             return new ReturnMessage(0, "提交异常");
         return positionService.editPosition(vender, position);
     }
+
     @GetMapping("/cancelOrder")
-    public ReturnMessage cancelOrder(@RequestHeader("Token") String token,int orderId){
-        if (StringUtils.isEmpty(orderId)) return new ReturnMessage(100,"请求异常");
-        String venderId= JwtVenderUtil.getVenderIdFromToken(token);
-        return venderService.cancelOrder(venderId,orderId);
+    public ReturnMessage cancelOrder(@RequestHeader("Token") String token, int orderId) {
+        if (StringUtils.isEmpty(orderId)) return new ReturnMessage(100, "请求异常");
+        String venderId = JwtVenderUtil.getVenderIdFromToken(token);
+        return venderService.cancelOrder(venderId, orderId);
     }
+
     /**
      * 上传视频
      *
@@ -107,8 +115,8 @@ public class VenderController {
     }
 
     @GetMapping("/finishOrder")
-     public ReturnMessage finishOrder(@RequestHeader("Token") String token, int orderId){
-             String id = JwtVenderUtil.getVenderIdFromToken(token);
-             return positionService.finishOrder(id, orderId);
-     }
+    public ReturnMessage finishOrder(@RequestHeader("Token") String token, int orderId) {
+        String id = JwtVenderUtil.getVenderIdFromToken(token);
+        return positionService.finishOrder(id, orderId);
+    }
 }

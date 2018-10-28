@@ -7,6 +7,8 @@ public class Constant {
     private final static String SYSTEM_KEY_WT="WT";
     private final static String SYSTEM_KEY_PHONE="KF_PHONE";
     private final static String SYSTEM_KEY_NAME="KF_NAME";
+    private final static String SYSTEM_KEY_VENDER_NOTICE="V_NOTICE";
+    private final static String SYSTEM_KEY_USER_NOTICE="U_NOTICE";
     //角色状态
     public final static String ROUE_STATUS_NORMAL="1";
     public final static String ROUE_STATUS_FORBID="2";
@@ -57,6 +59,14 @@ public class Constant {
 
     public static String getOderStatusWaite() {
         return ODER_STATUS_WAITE;
+    }
+
+    public static String getSystemKeyVenderNotice() {
+        return SYSTEM_KEY_VENDER_NOTICE;
+    }
+
+    public static String getSystemKeyUserNotice() {
+        return SYSTEM_KEY_USER_NOTICE;
     }
 
     public static String getOderStatusAgree() {

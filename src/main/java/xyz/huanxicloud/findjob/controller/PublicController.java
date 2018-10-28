@@ -62,4 +62,14 @@ public class PublicController {
     public String isAlive(){
         return "1";
     }
+    //获取公告
+    @GetMapping("/getVenderNotice")
+    public ReturnMessage getVenderNotice() {
+        return systemService.getVenderNotice();
+    }
+    //获取用户公告
+    @GetMapping("/getUserNotice")
+    public ReturnMessage getUserNotice(){
+        return systemService.getUserNotice();
+    }
 }
