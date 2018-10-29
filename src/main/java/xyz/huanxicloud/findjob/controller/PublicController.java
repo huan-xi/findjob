@@ -11,6 +11,8 @@ import xyz.huanxicloud.findjob.service.positionservice.PositionService;
 import xyz.huanxicloud.findjob.service.systemservice.SystemService;
 import xyz.huanxicloud.findjob.service.venderservice.VenderService;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/public")
 public class PublicController {
@@ -71,5 +73,9 @@ public class PublicController {
     @GetMapping("/getUserNotice")
     public ReturnMessage getUserNotice(){
         return systemService.getUserNotice();
+    }
+    @GetMapping("/getTime")
+    public long getTime(){
+        return new Date().getTime();
     }
 }
