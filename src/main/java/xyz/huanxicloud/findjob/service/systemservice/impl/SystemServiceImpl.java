@@ -46,7 +46,7 @@ public class SystemServiceImpl implements SystemService {
         String phone = systems.get(0).getsValue();
         SystemExample example2 = new SystemExample();
         example2.createCriteria().andSKeyEqualTo(Constant.getSystemKeyName());
-        List<System> systems2 = systemMapper.selectByExample(example);
+        List<System> systems2 = systemMapper.selectByExample(example2);
         String name = systems2.get(0).getsValue();
         return new ReturnMessage(1, new ServiceInfo(phone, name));
     }
