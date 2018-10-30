@@ -28,6 +28,15 @@ public class FindjobApplicationTests {
     @Autowired
     SystemMapper systemMapper;
 
+/*    @Test
+    public void contact() {
+        SystemExample example = new SystemExample();
+        example.createCriteria().andSKeyEqualTo(Constant.getSystemKeyName());
+        List<System> systems=systemMapper.selectByExample(example);
+        System system=systems.get(0);
+        system.setsValue("测试名字");
+        systemMapper.updateByPrimaryKey(system);
+    }*/
     /*@Test
     public void change() {
         SystemExample example = new SystemExample();
