@@ -75,12 +75,18 @@ public class UserServiceImpl implements UserService {
         User user=userMapper.selectByPrimaryKey(userId);
         if (!(user!=null&&user.getName()!=null&&user.getPhone()!=null&&user.getPhone().length()==11))
             return new ReturnMessage(3,"请先填写信息再接单");
+        //用户禁用禁止接单
+        if(user.getStatus().equals(Constant.getRoueStatusForbid()))
+            return new ReturnMessage(4,"接单失败,您已被禁用,请联系客服解决问题！");
+        Position position = positionService.getPositionInfo(positionId);
+        //不是对应工种不能接单
+        if (!(user.getType()!=null&&user.getType().contains(position.getType())))
+            return new ReturnMessage(5,"接单失败,您不是对应工种");
         //如果有单则不能再接今天的,如果没单随便接
         POrderExample pOrderExample = new POrderExample();
         pOrderExample.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo(Constant.getOderStatusWaite());
         //查询未完成的
         List<POrder> pOrders = pOrderMapper.selectByExample(pOrderExample);
-        Position position = positionService.getPositionInfo(positionId);
         if (position.gethCount() >= position.getCount()) return new ReturnMessage(3, "该订单已抢完了！");
         if (pOrders.size() > 0) {
             Long time = position.getTime();
