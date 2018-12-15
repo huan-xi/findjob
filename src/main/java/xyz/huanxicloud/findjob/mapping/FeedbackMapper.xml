@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xyz.huanxicloud.findjob.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="xyz.huanxicloud.findjob.pojo.User">
-    <id column="user_id" jdbcType="CHAR" property="userId" />
+<mapper namespace="xyz.huanxicloud.findjob.mapper.FeedbackMapper">
+  <resultMap id="BaseResultMap" type="xyz.huanxicloud.findjob.pojo.Feedback">
+    <id column="feedback_id" jdbcType="INTEGER" property="feedbackId" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
-    <result column="name" jdbcType="CHAR" property="name" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="idcard_src" jdbcType="VARCHAR" property="idcardSrc" />
+    <result column="contact" jdbcType="VARCHAR" property="contact" />
+    <result column="text" jdbcType="VARCHAR" property="text" />
     <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="valid" jdbcType="VARCHAR" property="valid" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="type" jdbcType="CHAR" property="type" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, create_time, name, phone, idcard_src, status, valid, type
+    feedback_id, create_time, contact, text, status, type
   </sql>
-  <select id="selectByExample" parameterType="xyz.huanxicloud.findjob.pojo.UserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="xyz.huanxicloud.findjob.pojo.FeedbackExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from feedback
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,117 +84,97 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user
-    where user_id = #{userId,jdbcType=CHAR}
+    from feedback
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from user
-    where user_id = #{userId,jdbcType=CHAR}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from feedback
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="xyz.huanxicloud.findjob.pojo.UserExample">
-    delete from user
+  <delete id="deleteByExample" parameterType="xyz.huanxicloud.findjob.pojo.FeedbackExample">
+    delete from feedback
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="xyz.huanxicloud.findjob.pojo.User">
-    insert into user (user_id, create_time, name, 
-      phone, idcard_src, status, 
-      valid, type)
-    values (#{userId,jdbcType=CHAR}, #{createTime,jdbcType=BIGINT}, #{name,jdbcType=CHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{idcardSrc,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{valid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="xyz.huanxicloud.findjob.pojo.Feedback">
+    insert into feedback (feedback_id, create_time, contact, 
+      text, status, type)
+    values (#{feedbackId,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{contact,jdbcType=VARCHAR}, 
+      #{text,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="xyz.huanxicloud.findjob.pojo.User">
-    insert into user
+  <insert id="insertSelective" parameterType="xyz.huanxicloud.findjob.pojo.Feedback">
+    insert into feedback
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
+      <if test="feedbackId != null">
+        feedback_id,
       </if>
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="name != null">
-        name,
+      <if test="contact != null">
+        contact,
       </if>
-      <if test="phone != null">
-        phone,
-      </if>
-      <if test="idcardSrc != null">
-        idcard_src,
+      <if test="text != null">
+        text,
       </if>
       <if test="status != null">
         status,
-      </if>
-      <if test="valid != null">
-        valid,
       </if>
       <if test="type != null">
         type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=CHAR},
+      <if test="feedbackId != null">
+        #{feedbackId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=BIGINT},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=CHAR},
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="idcardSrc != null">
-        #{idcardSrc,jdbcType=VARCHAR},
+      <if test="text != null">
+        #{text,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="valid != null">
-        #{valid,jdbcType=VARCHAR},
-      </if>
       <if test="type != null">
-        #{type,jdbcType=VARCHAR},
+        #{type,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="xyz.huanxicloud.findjob.pojo.UserExample" resultType="java.lang.Long">
-    select count(*) from user
+  <select id="countByExample" parameterType="xyz.huanxicloud.findjob.pojo.FeedbackExample" resultType="java.lang.Long">
+    select count(*) from feedback
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update feedback
     <set>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=CHAR},
+      <if test="record.feedbackId != null">
+        feedback_id = #{record.feedbackId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=BIGINT},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=CHAR},
+      <if test="record.contact != null">
+        contact = #{record.contact,jdbcType=VARCHAR},
       </if>
-      <if test="record.phone != null">
-        phone = #{record.phone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.idcardSrc != null">
-        idcard_src = #{record.idcardSrc,jdbcType=VARCHAR},
+      <if test="record.text != null">
+        text = #{record.text,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=VARCHAR},
       </if>
-      <if test="record.valid != null">
-        valid = #{record.valid,jdbcType=VARCHAR},
-      </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=VARCHAR},
+        type = #{record.type,jdbcType=CHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -204,55 +182,45 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
-    set user_id = #{record.userId,jdbcType=CHAR},
+    update feedback
+    set feedback_id = #{record.feedbackId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=CHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      idcard_src = #{record.idcardSrc,jdbcType=VARCHAR},
+      contact = #{record.contact,jdbcType=VARCHAR},
+      text = #{record.text,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=VARCHAR},
-      valid = #{record.valid,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=VARCHAR}
+      type = #{record.type,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="xyz.huanxicloud.findjob.pojo.User">
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.huanxicloud.findjob.pojo.Feedback">
+    update feedback
     <set>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=BIGINT},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=CHAR},
+      <if test="contact != null">
+        contact = #{contact,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="idcardSrc != null">
-        idcard_src = #{idcardSrc,jdbcType=VARCHAR},
+      <if test="text != null">
+        text = #{text,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="valid != null">
-        valid = #{valid,jdbcType=VARCHAR},
-      </if>
       <if test="type != null">
-        type = #{type,jdbcType=VARCHAR},
+        type = #{type,jdbcType=CHAR},
       </if>
     </set>
-    where user_id = #{userId,jdbcType=CHAR}
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="xyz.huanxicloud.findjob.pojo.User">
-    update user
+  <update id="updateByPrimaryKey" parameterType="xyz.huanxicloud.findjob.pojo.Feedback">
+    update feedback
     set create_time = #{createTime,jdbcType=BIGINT},
-      name = #{name,jdbcType=CHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      idcard_src = #{idcardSrc,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      text = #{text,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      valid = #{valid,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=CHAR}
+      type = #{type,jdbcType=CHAR}
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </update>
 </mapper>

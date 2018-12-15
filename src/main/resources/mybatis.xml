@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
 
-    <classPathEntry location="C:\Users\huanxi\.m2\repository\mysql\mysql-connector-java\5.1.8\mysql-connector-java-5.1.8.jar"/>
+    <classPathEntry location="C:\Users\huanxi\.m2\repository\net\sourceforge\jtds\jtds\1.2.4\jtds-1.2.4.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
         <commentGenerator>
@@ -14,7 +14,7 @@
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
 
-        <jdbcConnection userId="findjob" password="125512" driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://111.230.251.119:3306/findjob"/>
+        <jdbcConnection userId="findjob" password="qQ1223334444@" driverClass="net.sourceforge.jtds.jdbc.Driver" connectionURL="jdbc:jtds:sqlserver://w1.zhexi.tech:56148/findjob"/>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
@@ -32,7 +32,14 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-       <!-- <table schema="" tableName="p_order"/>-->
+        <table schema="dbo" tableName="p_order">
+            <columnOverride column="order_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <columnOverride column="position_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </table>
+        <table schema="dbo" tableName="position">
+            <columnOverride column="position_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <columnOverride column="position_desc" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </table>
         <!--<table schema="" tableName="vender"/>-->
         <!--<table schema="" tableName="operate_log"/>-->
    <!--     <table schema="" tableName="bill" ></table>
@@ -41,10 +48,11 @@
             <columnOverride column="com_desc" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <columnOverride column="images" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>-->
-        <!--<table schema="" tableName="position">
-            <columnOverride column="position_desc" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        </table>-->
-       <!-- <table schema="" tableName="work_type"/>-->
-       <table schema="" tableName="feedback"/>
+
+       <!--<table schema="" tableName="position">-->
+            <!--<columnOverride column="position_desc" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+        <!--</table>-->
+        <!--<table schema="" tableName="work_type"/>-->
+        <!--<table schema="" tableName="feedback"/>-->
     </context>
 </generatorConfiguration>

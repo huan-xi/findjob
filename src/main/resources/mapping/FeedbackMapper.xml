@@ -7,6 +7,7 @@
     <result column="contact" jdbcType="VARCHAR" property="contact" />
     <result column="text" jdbcType="VARCHAR" property="text" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="type" jdbcType="CHAR" property="type" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    feedback_id, create_time, contact, text, status
+    feedback_id, create_time, contact, text, status, type
   </sql>
   <select id="selectByExample" parameterType="xyz.huanxicloud.findjob.pojo.FeedbackExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,9 @@
   </delete>
   <insert id="insert" parameterType="xyz.huanxicloud.findjob.pojo.Feedback">
     insert into feedback (feedback_id, create_time, contact, 
-      text, status)
+      text, status, type)
     values (#{feedbackId,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{contact,jdbcType=VARCHAR}, 
-      #{text,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+      #{text,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="xyz.huanxicloud.findjob.pojo.Feedback">
     insert into feedback
@@ -123,6 +124,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="type != null">
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="feedbackId != null">
@@ -139,6 +143,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +173,9 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=CHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +187,8 @@
       create_time = #{record.createTime,jdbcType=BIGINT},
       contact = #{record.contact,jdbcType=VARCHAR},
       text = #{record.text,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=VARCHAR}
+      status = #{record.status,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +208,9 @@
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
     </set>
     where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </update>
@@ -205,7 +219,8 @@
     set create_time = #{createTime,jdbcType=BIGINT},
       contact = #{contact,jdbcType=VARCHAR},
       text = #{text,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR}
+      status = #{status,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR}
     where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </update>
 </mapper>

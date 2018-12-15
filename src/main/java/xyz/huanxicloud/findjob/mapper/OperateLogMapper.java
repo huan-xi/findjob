@@ -10,7 +10,7 @@ public interface OperateLogMapper {
 
     int deleteByExample(OperateLogExample example);
 
-    int deleteByPrimaryKey(Integer opId);
+    int deleteByPrimaryKey(Long opId);
 
     int insert(OperateLog record);
 
@@ -18,7 +18,7 @@ public interface OperateLogMapper {
 
     List<OperateLog> selectByExample(OperateLogExample example);
 
-    OperateLog selectByPrimaryKey(Integer opId);
+    OperateLog selectByPrimaryKey(Long opId);
 
     int updateByExampleSelective(@Param("record") OperateLog record, @Param("example") OperateLogExample example);
 

@@ -11,6 +11,8 @@ public class Feedback {
 
     private String status;
 
+    private String type;
+
     public Integer getFeedbackId() {
         return feedbackId;
     }
@@ -49,5 +51,13 @@ public class Feedback {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 }

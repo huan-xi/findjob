@@ -1,10 +1,9 @@
 package xyz.huanxicloud.findjob.mapper;
 
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import xyz.huanxicloud.findjob.pojo.Feedback;
 import xyz.huanxicloud.findjob.pojo.FeedbackExample;
-
-import java.util.List;
 
 public interface FeedbackMapper {
     long countByExample(FeedbackExample example);

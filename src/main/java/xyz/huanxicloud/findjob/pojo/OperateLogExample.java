@@ -114,52 +114,52 @@ public class OperateLogExample {
             return (Criteria) this;
         }
 
-        public Criteria andOpIdEqualTo(Integer value) {
+        public Criteria andOpIdEqualTo(Long value) {
             addCriterion("op_id =", value, "opId");
             return (Criteria) this;
         }
 
-        public Criteria andOpIdNotEqualTo(Integer value) {
+        public Criteria andOpIdNotEqualTo(Long value) {
             addCriterion("op_id <>", value, "opId");
             return (Criteria) this;
         }
 
-        public Criteria andOpIdGreaterThan(Integer value) {
+        public Criteria andOpIdGreaterThan(Long value) {
             addCriterion("op_id >", value, "opId");
             return (Criteria) this;
         }
 
-        public Criteria andOpIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andOpIdGreaterThanOrEqualTo(Long value) {
             addCriterion("op_id >=", value, "opId");
             return (Criteria) this;
         }
 
-        public Criteria andOpIdLessThan(Integer value) {
+        public Criteria andOpIdLessThan(Long value) {
             addCriterion("op_id <", value, "opId");
             return (Criteria) this;
         }
 
-        public Criteria andOpIdLessThanOrEqualTo(Integer value) {
+        public Criteria andOpIdLessThanOrEqualTo(Long value) {
             addCriterion("op_id <=", value, "opId");
             return (Criteria) this;
         }
 
-        public Criteria andOpIdIn(List<Integer> values) {
+        public Criteria andOpIdIn(List<Long> values) {
             addCriterion("op_id in", values, "opId");
             return (Criteria) this;
         }
 
-        public Criteria andOpIdNotIn(List<Integer> values) {
+        public Criteria andOpIdNotIn(List<Long> values) {
             addCriterion("op_id not in", values, "opId");
             return (Criteria) this;
         }
 
-        public Criteria andOpIdBetween(Integer value1, Integer value2) {
+        public Criteria andOpIdBetween(Long value1, Long value2) {
             addCriterion("op_id between", value1, value2, "opId");
             return (Criteria) this;
         }
 
-        public Criteria andOpIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andOpIdNotBetween(Long value1, Long value2) {
             addCriterion("op_id not between", value1, value2, "opId");
             return (Criteria) this;
         }
