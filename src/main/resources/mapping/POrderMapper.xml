@@ -134,7 +134,7 @@
       user_id, work_time, create_time,
       end_time, status, price,
       price_type, position_desc)
-    values (jdbcType=INTEGER}, #{positionId,jdbcType=INTEGER}, #{venderId,jdbcType=VARCHAR},
+    values (#{positionId,jdbcType=INTEGER}, #{venderId,jdbcType=VARCHAR},
       #{userId,jdbcType=CHAR}, #{workTime,jdbcType=BIGINT}, #{createTime,jdbcType=BIGINT},
       #{endTime,jdbcType=BIGINT}, #{status,jdbcType=CHAR}, #{price,jdbcType=VARCHAR},
       #{priceType,jdbcType=VARCHAR}, #{positionDesc,jdbcType=LONGVARCHAR})
