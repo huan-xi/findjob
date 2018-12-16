@@ -3,10 +3,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:jtds:sqlserver://w1.zhexi.tech:56148/findjob
+    url: jdbc:sqlserver://localhost;database=findjob
     username: findjob
-    password: qQ1223334444@
-    driver-class-name: net.sourceforge.jtds.jdbc.Driver
+    password: qQ1223334444`
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   servlet:
     multipart:
       enabled: true
@@ -18,7 +18,7 @@ mybatis:
 #  http.multipart.maxFileSize=100Mb
 #  spring.http.multipart.maxRequestSize=100Mb
 pagehelper:
-  helperDialect: mysql
+  helperDialect: sqlserver
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql

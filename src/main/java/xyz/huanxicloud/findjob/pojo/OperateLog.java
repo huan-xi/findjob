@@ -1,7 +1,7 @@
 package xyz.huanxicloud.findjob.pojo;
 
 public class OperateLog {
-    private Long opId;
+    private Integer opId;
 
     private String type;
 
@@ -13,11 +13,11 @@ public class OperateLog {
 
     private String operatorType;
 
-    public Long getOpId() {
+    public Integer getOpId() {
         return opId;
     }
 
-    public void setOpId(Long opId) {
+    public void setOpId(Integer opId) {
         this.opId = opId;
     }
 

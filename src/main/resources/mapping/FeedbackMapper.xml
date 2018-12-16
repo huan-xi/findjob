@@ -76,7 +76,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from feedback
+    from dbo.feedback
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,29 +85,29 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
-    from feedback
+    from dbo.feedback
     where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from feedback
+    delete from dbo.feedback
     where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="xyz.huanxicloud.findjob.pojo.FeedbackExample">
-    delete from feedback
+    delete from dbo.feedback
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="xyz.huanxicloud.findjob.pojo.Feedback">
-    insert into feedback (feedback_id, create_time, contact, 
+    insert into dbo.feedback ( create_time, contact,
       text, status, type)
-    values (#{feedbackId,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{contact,jdbcType=VARCHAR}, 
+    values ( #{createTime,jdbcType=BIGINT}, #{contact,jdbcType=VARCHAR},
       #{text,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="xyz.huanxicloud.findjob.pojo.Feedback">
-    insert into feedback
+    insert into dbo.feedback
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="feedbackId != null">
         feedback_id,
@@ -150,13 +150,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="xyz.huanxicloud.findjob.pojo.FeedbackExample" resultType="java.lang.Long">
-    select count(*) from feedback
+    select count(*) from dbo.feedback
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update feedback
+    update dbo.feedback
     <set>
       <if test="record.feedbackId != null">
         feedback_id = #{record.feedbackId,jdbcType=INTEGER},
@@ -182,7 +182,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update feedback
+    update dbo.feedback
     set feedback_id = #{record.feedbackId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=BIGINT},
       contact = #{record.contact,jdbcType=VARCHAR},
@@ -194,7 +194,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="xyz.huanxicloud.findjob.pojo.Feedback">
-    update feedback
+    update dbo.feedback
     <set>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=BIGINT},
@@ -215,7 +215,7 @@
     where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="xyz.huanxicloud.findjob.pojo.Feedback">
-    update feedback
+    update dbo.feedback
     set create_time = #{createTime,jdbcType=BIGINT},
       contact = #{contact,jdbcType=VARCHAR},
       text = #{text,jdbcType=VARCHAR},

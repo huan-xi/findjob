@@ -1,12 +1,18 @@
 package xyz.huanxicloud.findjob;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import xyz.huanxicloud.findjob.common.Constant;
 import xyz.huanxicloud.findjob.mapper.*;
+import xyz.huanxicloud.findjob.pojo.System;
+import xyz.huanxicloud.findjob.pojo.SystemExample;
 import xyz.huanxicloud.findjob.service.positionservice.PositionService;
 import xyz.huanxicloud.findjob.service.venderservice.VenderService;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,16 +34,21 @@ public class FindjobApplicationTests {
     @Autowired
     SystemMapper systemMapper;
 
-/*    @Test
-    public void contact() {
-        SystemExample example = new SystemExample();
-        example.createCriteria().andSKeyEqualTo(Constant.getSystemKeyName());
-        List<System> systems=systemMapper.selectByExample(example);
-        System system=systems.get(0);
-        system.setsValue("测试名字");
-        systemMapper.updateByPrimaryKey(system);
-    }*/
-    /*@Test
+    /*    @Test
+        public void contact() {
+            SystemExample example = new SystemExample();
+            example.createCriteria().andSKeyEqualTo(Constant.getSystemKeyName());
+            List<System> systems=systemMapper.selectByExample(example);
+            System system=systems.get(0);
+            system.setsValue("测试名字");
+            systemMapper.updateByPrimaryKey(system);
+        }*/
+    @Test
+    public void test() {
+    userMapper.selectByPrimaryKey("dsf");
+    }
+/*
+    @Test
     public void change() {
         SystemExample example = new SystemExample();
         example.createCriteria().andSKeyEqualTo(Constant.getSystemKeyVenderNotice());
@@ -45,17 +56,18 @@ public class FindjobApplicationTests {
         System e = es.get(0);
         e.setsValue("工厂通告测试,欢迎使用工厂端");
         systemMapper.updateByPrimaryKey(e);
-    }*/
-    /*    @Test
+    }
+        @Test
     public void add(){
         System system=new System();
         system.setsKey(Constant.getSystemKeyUserNotice());
         system.setsValue("用户公告测试！");
-        System system2=new System();
-        system2.setsKey(Constant.getSystemKeyVenderNotice());
-        system2.setsValue("工厂公告测试！");
+//        System system2=new System();
+//        system2.setsKey(Constant.getSystemKeyVenderNotice());
+//        system2.setsValue("工厂公告测试！");
         systemMapper.insert(system);
-        systemMapper.insert(system2);
-    }*/
+//        systemMapper.insert(system2);
+    }
+*/
 
 }
