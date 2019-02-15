@@ -80,33 +80,6 @@ public class UserController {
         return userService.finishOrders(userId, orderId);
     }
 
-    @PostMapping("/uploadIdCard")
-    public ReturnMessage uploadIdCard(@RequestHeader("Token") String token, MultipartFile idCard) {
-        String temp = System.getProperty("os.name").contains("indow") ? "f:\\" : "/var/tmp/upload";
-        String filename = "";
-        try {
-            filename = UUID.randomUUID().toString() + "." + idCard.getContentType().split("/")[1];
-        } catch (NullPointerException e) {
-            filename = UUID.randomUUID().toString() + ".no";
-        }
-        String ossFile = null;
-        try {
-            ossFile = AliOSSUtil.uploadLocalFile((FileInputStream) idCard.getInputStream(), filename, "image/head_img/", temp);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (!StringUtils.isEmpty(ossFile)) {
-            //上传到oss成功
-            User user = getUser(token);
-            if (user == null) return new ReturnMessage(1001, "上传失败");
-            user.setIdcardSrc(ossFile);
-            user.setValid("1");
-            userService.updateByPrimaryKey(user);
-            return new ReturnMessage(1, ossFile);
-        }
-        return new ReturnMessage(1000, "上传失败");
-    }
-
     private String getUserId(String token) {
         return JwtUserTokenUtil.getUserIdFromToken(token);
     }
@@ -122,9 +95,9 @@ public class UserController {
      * @return
      */
     @PostMapping("/editInfo")
-    public ReturnMessage editInfo(@RequestHeader("Token") String token, String phone, String name, String types) {
+    public ReturnMessage editInfo(@RequestHeader("Token") String token,String imagesrc, String phone, String name, String types) {
         String id = JwtUserTokenUtil.getUserIdFromToken(token);
-        return userService.editInfo(id, phone, name, types);
+        return userService.editInfo(id,imagesrc, phone, name, types);
     }
 
     private User getUser(String token) {

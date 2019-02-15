@@ -13,8 +13,12 @@ import xyz.huanxicloud.findjob.service.feedbackservice.FeedbackService;
 import xyz.huanxicloud.findjob.service.positionservice.PositionService;
 import xyz.huanxicloud.findjob.service.systemservice.SystemService;
 import xyz.huanxicloud.findjob.service.venderservice.VenderService;
+import xyz.huanxicloud.findjob.util.QiniuOssUtil;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 @Api(tags = "公开接口", description = "所有角色可调用")
 @RestController
 @RequestMapping("/public")
@@ -56,6 +60,13 @@ public class PublicController {
     @GetMapping("/search")
     public ReturnMessage searchPositions(int page, int size,@ApiParam(value = "搜索关键字") String key){
         return positionService.search(page,size, key);
+    }
+    @ApiOperation(value = "获取上传文件Token")
+    @GetMapping("/uptoken")
+    public Map<String,String> upToken(){
+        Map res=new HashMap<>();
+        res.put("uptoken", QiniuOssUtil.getUpToken());
+        return res;
     }
     //获取客服信息
     @ApiOperation(value = "获取客服信息")

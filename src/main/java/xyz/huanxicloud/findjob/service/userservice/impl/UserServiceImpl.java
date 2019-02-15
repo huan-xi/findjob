@@ -57,12 +57,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ReturnMessage editInfo(String id, String phone, String name, String types) {
+    public ReturnMessage editInfo(String id,String imageSrc, String phone, String name, String types) {
         User user = userMapper.selectByPrimaryKey(id);
         //工种处理
         user.setType(types);
         user.setPhone(phone);
         user.setName(name);
+        //图片处理
+        user.setIdcardSrc(imageSrc);
+        user.setValid("1");
         if (userMapper.updateByPrimaryKey(user) > 0)
             return new ReturnMessage(1, "修改信息成功");
         return new ReturnMessage(0, "修改信息失败！");
