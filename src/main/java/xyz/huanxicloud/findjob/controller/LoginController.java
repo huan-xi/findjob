@@ -1,5 +1,8 @@
 package xyz.huanxicloud.findjob.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,14 +21,16 @@ import xyz.huanxicloud.findjob.util.WXUtils;
 import java.util.Date;
 
 @RestController
-public class LoginContrller {
+@Api(tags = "用户商家登入",description = "微信openId登入")
+public class LoginController {
 
     @Autowired
     UserMapper userMapper;
     @Autowired
     VenderMapper venderMapper;
     @PostMapping("/login")
-    public ReturnMessage login(String code){
+    @ApiOperation(value = "用户登入",notes="没有用户自动注册")
+    public ReturnMessage login(@ApiParam(value = "openId",required = true) String code){
         //用户登入
         WXInfo wxInfo=WXUtils.getWxInfo(code,WXUtils.getUserAppid(),WXUtils.getUserSecret());
         if (wxInfo!=null&& !StringUtils.isEmpty(wxInfo.getOpenid()))
@@ -57,7 +62,7 @@ public class LoginContrller {
         return new ReturnMessage(0,"登入失败");
     }
     @PostMapping("/venderlogin")
-    public ReturnMessage venderlogin(String code){
+    public ReturnMessage venderLogin(String code){
         //用户登入
         WXInfo wxInfo=WXUtils.getWxInfo(code,WXUtils.getVenderAppid(),WXUtils.getVenderSecret());
         if (wxInfo!=null&& !StringUtils.isEmpty(wxInfo.getOpenid()))
@@ -87,13 +92,5 @@ public class LoginContrller {
         }
         //如果可用生产Token
         return new ReturnMessage(0,"登入失败");
-    }
-    @PostMapping("/adminLogin")
-    public ReturnMessage adminLogin(String username,String password,String captcha){
-        if (username.equals("admin")&&password.equals("test")){
-            User user=new User();
-            return new ReturnMessage(1, JwtUserTokenUtil.generateToken(user));
-        }
-        return new ReturnMessage(0,"登入失败！");
     }
 }
